@@ -1,0 +1,51 @@
+{% extends 'Admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="container">
+      <!-- Title and Top Buttons Start -->
+      <div class="page-title-container">
+        <div class="row">
+          <!-- Title Start -->
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a href="{% url 'product_list' %}" class="muted-link pb-1 d-inline-block breadcrumb-back">
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">Home</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Products</h1>
+            </div>
+          </div>
+          <!-- Title End -->
+        </div>
+      </div>
+      <!-- Title and Top Buttons End -->
+
+      <!-- Trending Start -->
+      
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4 mb-5">
+        {% for product in products %}
+            <div class="col">
+                <div class="card h-100 position-relative">
+                    <img src="{{ product.image.url }}" class="card-img-top sh-22" alt="card image" />
+                    <div class="card-body pb-2">
+                        <div class="h6 mb-0 d-flex">
+                            <a href="{% url 'product_detail' product.pk %}" class="body-link d-block stretched-link sh-4">
+                                <span class="clamp-line" data-line="2">{{ product.name }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer border-0 pt-0">
+                        <div class="card-text mb-0">
+                            <div>$ {{ product.actual_price }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+    
+    </div>
+</main>
+
+{% endblock %}

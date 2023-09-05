@@ -1,0 +1,59 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block content %}
+		
+	<main>
+		<div class="top_banner">
+			<div class="opacity-mask d-flex align-items-center" data-opacity-mask="rgba(0, 0, 0, 0.3)">
+				<div class="container">
+				
+				</div>
+			</div>
+			<img src="{% static 'user/asset/Fawz  FB Cover 2.jpg' %}" class="img-fluid" alt="">
+		</div>
+		<!-- /top_banner -->
+		
+			
+
+			<div class="container margin_30">
+			<div class="row small-gutters">
+
+                {% for product in products %}
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="grid_item">
+                            <figure>
+                                
+                                <a href="{% url 'product_view' product_id=product.id %}">
+                                    <img class="img-fluid lazy" src="{{ product.image.url }}" data-src="{{ product.image.url }}" alt="">
+                                </a>
+                                
+                            </figure>
+                            <a href="{% url 'product_view' product_id=product.id %}">
+                                <h3>{{ product.name }}</h3>
+                            </a>
+                            <div class="price_box">
+                                <span class="new_price">${{ product.actual_price }}</span>
+                                <!-- <span class="old_price">$60.00</span> -->
+                            </div>
+                            <ul>
+                                <li><a href="#0" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a></li>
+                                
+                                <li><a href="{% url 'add_to_cart_three' product_id=product.id %}" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
+                            </ul>
+                        </div>
+                        <!-- /grid_item -->
+                    </div>
+                {% empty %}
+                    <h3>No products found.</h3>
+
+                {% endfor %}
+				<!-- /col -->
+				
+				
+				
+		</div>
+		<!-- /container -->
+	</main>
+	<!-- /main -->
+	
+{% endblock content %}

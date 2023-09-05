@@ -1,0 +1,141 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block content %}
+
+	<main class="bg_gray">
+		<div class="container margin_30">
+		<div class="page_header">
+			<div class="breadcrumbs">
+				<ul>
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Category</a></li>
+					<li>Page active</li>
+				</ul>
+			</div>
+			<h1>Cart page</h1>
+		</div>
+		<!-- /page_header -->
+		<table class="table table-striped cart-list">
+							<thead>
+								<tr>
+									<th>
+										Product
+									</th>
+									<th>
+										Price
+									</th>
+									<th>
+										Quantity
+									</th>
+									<th>
+										Subtotal
+									</th>
+									<th>
+										
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+                                {% for cart in cart %}
+                                    {% if cart.ordered == False %}
+                                        <tr>
+                                            <td>
+                                                <div class="thumb_cart">
+                                                    <img src="{{ cart.product.image.url }} " data-src="{{ cart.product.image.url }}" class="lazy" alt="Image" style="width: 50px;">
+													<span class="item_cart">{{ cart.product.name }}</span>
+                                                </div>
+                                                
+                                            </td>
+                                            <td>
+                                                <strong>{{ cart.price_dummy }}</strong>
+                                            </td>
+                                            <td class="cart-product-quantity">
+                                                <div class="quantity-wrapper">
+                                                    <a href="{% url 'decrease_quantity' cart.id %}" class="quantity-button">-</a>
+                                                    <div class="quantity">{{ cart.quantity }}</div>
+                                                    <a href="{% url 'increase_quantity' cart.id %}" class="quantity-button">+</a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <strong>{{ cart.total }}</strong>
+                                            </td>
+                                            <td class="options">
+                                                <a href="{% url 'delete_cart' cart.id %}"><i class="ti-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+
+						
+					</div>
+					<!-- /cart_actions -->
+	
+		</div>
+		<!-- /container -->
+		
+		<div class="box_cart">
+			<div class="container">
+			<div class="row justify-content-end">
+				<div class="col-xl-4 col-lg-4 col-md-6">
+			<ul>
+				<li>
+					<span>Subtotal</span> ${{ subtotal }}
+				</li>
+				<li>
+					<span>Shipping</span> $7.00
+				</li>
+				<li>
+					<span>Total</span> $247.00
+				</li>
+			</ul>
+			<a href="{% url 'order' %}" class="btn_1 full-width cart">Proceed to Checkout</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /box_cart -->
+		
+	</main>
+	<!--/main-->
+
+    
+<style>
+    /* Foe Quantiys */
+    .quantity-wrapper {
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    }
+
+    .quantity-button {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0 5px;
+    }
+
+    .quantity {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    }
+
+</style>
+
+
+{% endblock content %}

@@ -1,0 +1,234 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block content %}
+
+	<main>
+	    <div class="container margin_30">
+	        <!-- <div class="countdown_inner">-20% This offer ends in <div data-countdown="2019/05/15" class="countdown"></div>
+	        </div> -->
+	        <div class="row">
+	            <div class="col-md-6">
+	                <div class="all">
+	                    <div class="slider">
+	                        <div class="owl-carousel owl-theme main">
+	                            <div style="background-image: url('{{ product.image.url }}');" class="item-box"></div>
+	                            <div style="background-image: url('{{ product.image.url }}');" class="item-box"></div>
+	                            
+	                        </div>
+	                        <div class="left nonl"><i class="ti-angle-left"></i></div>
+	                        <div class="right"><i class="ti-angle-right"></i></div>
+	                    </div>
+	                    <!-- <div class="slider-two">
+	                        <div class="owl-carousel owl-theme thumbs">
+	                            <div style="background-image: url('{{ product.image.url }}');" class="item active"></div>
+	                            <div style="background-image: url('{{ product.image.url }}');" class="item"></div>
+	                        
+	                        </div>
+	                        <div class="left-t nonl-t"></div>
+	                        <div class="right-t"></div>
+	                    </div> -->
+	                </div>
+	            </div>
+	            <div class="col-md-6 mainq" >
+	                
+	                <div class="prod_info">
+	                    <h1>{{ product.name }}</h1>
+	                    <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span>
+	                    <p>{{ product.description }} </p>
+	                    <div class="prod_options">
+	                        
+	                        <div class="row">
+	                           
+	                        </div>
+	                    </div>
+	                    <div class="row">
+	                        <div class="col-lg-5 col-md-6">
+	                            <div class="price_main"><span class="new_price">${{ product.actual_price }}</span></div>
+	                        </div>
+	                        <div class="col-lg-4 col-md-6">
+	                            <div class="btn_add_to_cart"><a href="{% url 'add_to_cart_two' product.id %}" class="btn_1">Add to Cart</a></div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- /prod_info -->
+	                <div class="product_actions">
+	                    <ul>
+	                        <!-- <li>
+	                            <a href="#"><i class="ti-heart"></i><span>Add to Wishlist</span></a>
+	                        </li> -->
+	                        <!-- <li>
+	                            <a href="#"><i class="ti-control-shuffle"></i><span>Add to Compare</span></a>
+	                        </li> -->
+	                    </ul>
+	                </div>
+	                <!-- /product_actions -->
+	            </div>
+	        </div>
+	        <!-- /row -->
+	    </div>
+	    <!-- /container -->
+	    
+	    <div class="tabs_product">
+	        <div class="container">
+	            <ul class="nav nav-tabs" role="tablist">
+	                <li class="nav-item">
+	                    <a id="tab-A" href="#pane-A" class="nav-link active" data-bs-toggle="tab" role="tab">Description</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a id="tab-B" href="#pane-B" class="nav-link" data-bs-toggle="tab" role="tab">Reviews</a>
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+	    <!-- /tabs_product -->
+	    <div class="tab_content_wrapper">
+	        <div class="container">
+	            <div class="tab-content" role="tablist">
+	                <div id="pane-A" class="card tab-pane fade active show" role="tabpanel" aria-labelledby="tab-A">
+	                    <div class="card-header" role="tab" id="heading-A">
+	                        <h5 class="mb-0">
+	                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-A" aria-expanded="false" aria-controls="collapse-A">
+	                                Description
+	                            </a>
+	                        </h5>
+	                    </div>
+	                    <div id="collapse-A" class="collapse" role="tabpanel" aria-labelledby="heading-A">
+	                        <div class="card-body">
+	                            <div class="row justify-content-between">
+	                                <div class="col-lg-6">
+	                                    <h3>Details</h3>
+	                                    <p>Experience the art of flavor transformation with our exquisite Fried Chicken Masala. Crafted with a blend of aromatic spices and seasonings, our masala is meticulously designed to take your fried chicken dishes to new heights of taste and indulgence. <br> <br>
+
+											Indulge in the perfect balance of flavors as our Fried Chicken Masala coats each succulent piece of chicken, infusing it with an irresistible combination of warmth, depth, and a hint of zesty charm. From the first bite to the last, our masala creates a symphony of sensations that dance on your taste buds. <br> <br>
+											
+											Our blend is not just a mix of ingredients; it's a masterpiece carefully curated to capture the essence of culinary traditions. Whether you prefer a mild, medium, or fiery kick, our Fried Chicken Masala allows you to customize your fried chicken experience, ensuring that every dish you create is uniquely yours. <br> <br>
+											
+											</p>
+	                                </div>
+	                                
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- /TAB A -->
+	                <div id="pane-B" class="card tab-pane fade" role="tabpanel" aria-labelledby="tab-B">
+	                    <div class="card-header" role="tab" id="heading-B">
+	                        <h5 class="mb-0">
+	                            <a class="collapsed" data-bs-toggle="collapse" href="#collapse-B" aria-expanded="false" aria-controls="collapse-B">
+	                                Reviews
+	                            </a>
+	                        </h5>
+	                    </div>
+	                    <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
+	                        <div class="card-body">
+	                            <div class="row justify-content-between">
+	                                <div class="col-lg-6">
+	                                    <div class="review_content">
+	                                        <div class="clearfix add_bottom_10">
+	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
+	                                            <em>Published 54 minutes ago</em>
+	                                        </div>
+	                                        <h4>"Commpletely satisfied"</h4>
+	                                        <p>I thought I knew fried chicken until I tried it with this masala. It's like a flavor explosion in every bite! The spices are perfectly balanced, and my fried chicken has never tasted this good. Highly recommended.</p>
+	                                    </div>
+	                                </div>
+	                                <div class="col-lg-6">
+	                                    <div class="review_content">
+	                                        <div class="clearfix add_bottom_10">
+	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><em>4.0/5.0</em></span>
+	                                            <em>Published 1 day ago</em>
+	                                        </div>
+	                                        <h4>"Always the best"</h4>
+	                                        <p>As someone who loves experimenting in the kitchen, this Fried Chicken Masala has quickly become my secret weapon. It adds a whole new dimension to my fried chicken, making it taste like something from a restaurant. My family can't get enough.</p>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <!-- /row -->
+	                            <div class="row justify-content-between">
+	                                <div class="col-lg-6">
+	                                    <div class="review_content">
+	                                        <div class="clearfix add_bottom_10">
+	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><em>4.5/5.0</em></span>
+	                                            <em>Published 3 days ago</em>
+	                                        </div>
+	                                        <h4>"Outstanding"</h4>
+	                                        <p>I've tried many masalas before, but this one truly stands out. The blend of spices is bold and adds a rich depth to the fried chicken. It's not just about heat, it's about real flavor. I'm hooked.</p>
+	                                    </div>
+	                                </div>
+	                                <div class="col-lg-6">
+	                                    <div class="review_content">
+	                                        <div class="clearfix add_bottom_10">
+	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
+	                                            <em>Published 4 days ago</em>
+	                                        </div>
+	                                        <h4>"Excellent"</h4>
+	                                        <p>Dinner time has become a celebration since we started using this Fried Chicken Masala. My kids actually request fried chicken now, and my husband loves the extra kick of flavor. It's become a family favorite, and I'm so glad I discovered it.</p>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <!-- /row -->
+	                            <p class="text-end"><a href="{% url 'add_review' product.id %}" class="btn_1">Leave a review</a></p>
+	                        </div>
+	                        <!-- /card-body -->
+	                    </div>
+	                </div>
+	                <!-- /tab B -->
+	            </div>
+	            <!-- /tab-content -->
+	        </div>
+	        <!-- /container -->
+	    </div>
+	    <!-- /tab_content_wrapper -->
+
+	    
+
+	    <div class="feat">
+			<div class="container">
+				<ul>
+					<li>
+						<div class="box">
+							<i class="ti-gift"></i>
+							<div class="justify-content-center">
+								<h3>Free Shipping</h3>
+								<p>For all oders over $99</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="box">
+							<i class="ti-wallet"></i>
+							<div class="justify-content-center">
+								<h3>Secure Payment</h3>
+								<p>100% secure payment</p>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="box">
+							<i class="ti-headphone-alt"></i>
+							<div class="justify-content-center">
+								<h3>24/7 Support</h3>
+								<p>Online top support</p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--/feat-->
+
+	</main>
+	<!-- /main -->
+
+	<style>
+		.mainq {
+			margin-top: 118px;
+		}
+		@media (max-width: 992px) {
+			.mainq {
+			margin-top: 0px;
+		}
+		}
+	</style>
+	
+	{% endblock content %}

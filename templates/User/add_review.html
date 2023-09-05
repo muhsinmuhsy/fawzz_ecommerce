@@ -1,0 +1,118 @@
+{% extends "user/base.html" %}
+{% load static %}
+{% block content %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Style for the review container */
+        .review-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        /* Style for the star rating container */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        /* Style for the star inputs (hidden) */
+        .star-rating input[type="radio"] {
+            display: none;
+        }
+
+        /* Style for the star labels */
+        .star-rating label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        /* Style for the star labels when selected */
+        .star-rating input[type="radio"]:checked + label {
+            color: #ffac00; /* Change to your preferred star color */
+        }
+
+        /* Style for the text input */
+        .review-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* Style for the textarea */
+        .review-textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            resize: vertical; /* Allow vertical resizing of textarea */
+        }
+
+        /* Style for the submit button */
+        .review-button {
+            background-color: #007bff; /* Change to your preferred button color */
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Style for the submit button on hover */
+        .review-button:hover {
+            background-color: #0056b3; /* Change to your preferred hover color */
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <div class="review-container">
+        <form action="" method="post" class="review-form">
+            {% csrf_token %}
+            <div class="star-rating">
+
+                <input type="radio" id="star1" name="rating" value="1" /><label for="star1"><i class="fas fa-star" title="1 star"></i></label>
+                <input type="radio" id="star2" name="rating" value="2" /><label for="star2"><i class="fas fa-star" title="2 stars"></i></label>
+                <input type="radio" id="star3" name="rating" value="3" /><label for="star3"><i class="fas fa-star" title="3 stars"></i></label>
+                <input type="radio" id="star4" name="rating" value="4" /><label for="star4"><i class="fas fa-star" title="4 stars"></i></label>
+                <input type="radio" id="star5" name="rating" value="5" /><label for="star5"><i class="fas fa-star" title="5 stars"></i></label>               
+            </div>
+            
+            <input type="text" id="head" name="head" placeholder="Head" required class="review-input"><br>
+            <textarea name="comment" placeholder="Your review" class="review-textarea"></textarea><br>
+            <button type="submit" class="review-button">Submit Review</button>
+        </form>
+    </div>
+    <br>
+
+    <script>
+        // JavaScript to fill stars up to the selected rating
+        const starInputs = document.querySelectorAll('.star-rating input[type="radio"]');
+        const starLabels = document.querySelectorAll('.star-rating label');
+
+        starLabels.forEach((label, index) => {
+            label.addEventListener('click', () => {
+                // Reset all stars to unfilled
+                starLabels.forEach((starLabel, i) => {
+                    if (i <= index) {
+                        starLabel.style.color = '#ffac00'; // Fill the stars
+                    } else {
+                        starLabel.style.color = '#ccc'; // Unfill the stars
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock content %}

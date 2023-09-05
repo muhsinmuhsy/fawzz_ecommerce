@@ -1,0 +1,101 @@
+{% extends 'Admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <div class="container">
+      <!-- Title and Top Buttons Start -->
+      <div class="page-title-container">
+        <div class="row">
+          <!-- Title Start -->
+          <div class="col-auto mb-3 mb-md-0 me-auto">
+            <div class="w-auto sw-md-30">
+              <a href="{% url 'product_list' %}" class="muted-link pb-1 d-inline-block breadcrumb-back">
+                <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
+                <span class="text-small align-middle">List</span>
+              </a>
+              <h1 class="mb-0 pb-0 display-4" id="title">Product Details</h1>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <!-- Title and Top Buttons End -->
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card mb-5">
+            <div class="card-body">
+              <div class="row">
+                <!-- Product Left Side Start -->
+                <div class="col-12 col-xl-7">
+                  <div class="glide glide-gallery" id="glideStorefrontDetail">
+                    
+                    <!-- Large Images Start -->
+                    <div class="glide glide-large">
+                      <div class="glide__track" data-glide-el="track">
+                        <ul class="glide__slides gallery-glide-custom">
+                          <li class="glide__slide p-0">
+                            <a href="">
+                              <img
+                                alt="detail"
+                                src="{{ product.image.url }}"
+                                class="responsive border-0 rounded-md img-fluid mb-3 sh-35 sh-md-45 sh-xl-60 w-100"
+                              />
+                            </a>
+                          </li>
+                          
+                        </ul>
+                      </div>
+                    </div>
+                    <!-- Large Images End -->
+                    <!-- Thumbs Start -->
+                    
+                    <!-- Thumbs End -->
+                  </div>
+                </div>
+                <!-- Product Left Side End -->
+
+                <!-- Product Right Side Start -->
+                <div class="col-12 col-xl-5 sh-xl-60 d-flex flex-column justify-content-between">
+                  <div>
+                    
+                    <h3 class="mb-4">{{ product.name }}</h3>
+                    
+                    <div class="h4">{{ product.price }}</div>
+                    
+                    <p class="mt-2 mb-4 sh-11 clamp-line" data-line="4">
+                      {{ product.description }}
+                    </p>
+                    
+                  </div>
+                  <div>
+                    <a class="btn btn-icon btn-icon-end btn-outline-primary me-sm-1 mb-1 mb-sm-0 w-100 w-sm-auto" href="{% url 'edit_product' product.pk %}">
+                      <span>Edit</span>
+                      <i data-acorn-icon="edit-square"></i>
+                    </a>
+                    <a class="btn btn-icon btn-icon-end btn-primary w-100 w-sm-auto" href="{% url 'delete_product' product.pk %}" onclick="return confirm('Do you want to delete this?')">
+                      <span>Delete</span>
+                      <i data-acorn-icon="delete"></i>
+                    </a>
+                  </div>
+                </div>
+                <!-- Product Right Side End -->
+              </div>
+            </div>
+          </div>
+
+
+          
+        </div>
+      </div>
+
+      
+      
+    </form> 
+                
+                
+        
+    </div>
+  </main>
+{% endblock %}
