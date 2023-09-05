@@ -72,7 +72,7 @@ def user_login(request):
         else:
             messages.error(request, 'Incorrect password.')
 
-        return render(request, 'login.html')
+        return render(request, 'U_Auth/login.html')
 
     return render(request, 'U_Auth/login.html')
 

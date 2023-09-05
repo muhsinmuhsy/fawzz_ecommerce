@@ -1,4 +1,4 @@
-{% extends "user/base.html" %}
+{% extends "User/base.html" %}
 {% load static %}
 {% block content %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -74,45 +74,56 @@
             background-color: #0056b3; /* Change to your preferred hover color */
         }
     </style>
-</head>
-<body>
-    <br>
-    <div class="review-container">
-        <form action="" method="post" class="review-form">
-            {% csrf_token %}
-            <div class="star-rating">
 
-                <input type="radio" id="star1" name="rating" value="1" required /><label for="star1"><i class="fas fa-star" title="1 star"></i></label>
-                <input type="radio" id="star2" name="rating" value="2" required /><label for="star2"><i class="fas fa-star" title="2 stars"></i></label>
-                <input type="radio" id="star3" name="rating" value="3" required /><label for="star3"><i class="fas fa-star" title="3 stars"></i></label>
-                <input type="radio" id="star4" name="rating" value="4" required /><label for="star4"><i class="fas fa-star" title="4 stars"></i></label>
-                <input type="radio" id="star5" name="rating" value="5" required /><label for="star5"><i class="fas fa-star" title="5 stars"></i></label>               
-            </div>
-            
-            <input type="text" id="head" name="head" placeholder="Head" required class="review-input"><br>
-            <textarea name="comment" placeholder="Your review" class="review-textarea" required></textarea><br>
-            <button type="submit" class="review-button">Submit Review</button>
-        </form>
-    </div>
+    <br>
+    <form method="post" class="review-container">
+        {% csrf_token %}
+        <div class="star-rating">
+            <input type="radio" id="star1" name="rating" value="1" {% if existing_review.rating == 1 %}checked{% endif %} /><label for="star1"><i class="fas fa-star" title="1 star"></i></label>
+            <input type="radio" id="star2" name="rating" value="2" {% if existing_review.rating == 2 %}checked{% endif %} /><label for="star2"><i class="fas fa-star" title="2 stars"></i></label>
+            <input type="radio" id="star3" name="rating" value="3" {% if existing_review.rating == 3 %}checked{% endif %} /><label for="star3"><i class="fas fa-star" title="3 stars"></i></label>
+            <input type="radio" id="star4" name="rating" value="4" {% if existing_review.rating == 4 %}checked{% endif %} /><label for="star4"><i class="fas fa-star" title="4 stars"></i></label>
+            <input type="radio" id="star5" name="rating" value="5" {% if existing_review.rating == 5 %}checked{% endif %} /><label for="star5"><i class="fas fa-star" title="5 stars"></i></label>
+        </div>
+        
+        <input type="text" id="head" name="head" placeholder="Head" value="{{ existing_review.head }}"  required class="review-input"><br>
+        <label for="comment">Comment:</label>
+        <textarea name="comment" class="review-textarea" required>{{ existing_review.comment }}</textarea><br>
+        <button type="submit" class="review-button">Update Review</button>
+    </form>
     <br>
 
     <script>
         // JavaScript to fill stars up to the selected rating
         const starInputs = document.querySelectorAll('.star-rating input[type="radio"]');
         const starLabels = document.querySelectorAll('.star-rating label');
-
+    
+        // Function to update the star colors based on the rating value
+        function updateStarColors(rating) {
+            starLabels.forEach((label, index) => {
+                if (index < rating) {
+                    label.style.color = '#ffac00'; // Fill the stars
+                } else {
+                    label.style.color = '#ccc'; // Unfill the stars
+                }
+            });
+        }
+    
+        // Initialize star colors based on existing_review.rating
+        updateStarColors('{{ existing_review.rating }}');
+    
         starLabels.forEach((label, index) => {
             label.addEventListener('click', () => {
-                // Reset all stars to unfilled
-                starLabels.forEach((starLabel, i) => {
-                    if (i <= index) {
-                        starLabel.style.color = '#ffac00'; // Fill the stars
-                    } else {
-                        starLabel.style.color = '#ccc'; // Unfill the stars
-                    }
-                });
+                // Get the selected rating when clicked
+                const selectedRating = index + 1;
+    
+                // Update star colors based on the selected rating
+                updateStarColors(selectedRating);
+    
+                // Update the corresponding radio input's checked state
+                starInputs[selectedRating - 1].checked = true;
             });
         });
     </script>
-
+    
 {% endblock content %}

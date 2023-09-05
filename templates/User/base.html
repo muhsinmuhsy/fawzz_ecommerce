@@ -45,7 +45,39 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+	<style>
+		
 
+.message {
+  position: relative;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.error {
+  background-color: #e74c3c;
+}
+
+.success {
+  background-color:#859b48;
+  margin: 5px;
+}
+
+.close-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+	</style>
 </head>
 
 <body>
@@ -53,20 +85,21 @@
 	<div id="page">
 
 		{% for message in messages %}
-    
-        {% if message.tags == 'error' %}
-            <div class="message-error">
-                {{ message }}
-            </div>
-        {% endif %}
-
-        {% if message.tags == 'success' %}
-            <div class="message-success">
-                {{ message }}
-            </div>
-        {% endif %}
-
+			{% if message.tags == 'error' %}
+				<div class="message error">
+					{{ message }}
+					<span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
+				</div>
+			{% endif %}
+			
+			{% if message.tags == 'success' %}
+				<div class="message success">
+					{{ message }}
+					<span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
+				</div>
+			{% endif %}
     	{% endfor %}
+
 		
 	<header class="version_1">
 		

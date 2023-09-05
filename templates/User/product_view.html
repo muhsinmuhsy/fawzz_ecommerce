@@ -33,8 +33,10 @@
 	                
 	                <div class="prod_info">
 	                    <h1>{{ product.name }}</h1>
-	                    <span class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i><em>4 reviews</em></span>
+	                    <!-- Display the total rating using a container element -->
+    					<div class="star-rating" data-rating="{{ total_rating }}"></div>
 	                    <p>{{ product.description }} </p>
+						 
 	                    <div class="prod_options">
 	                        
 	                        <div class="row">
@@ -49,6 +51,7 @@
 	                            <div class="btn_add_to_cart"><a href="{% url 'add_to_cart_two' product.id %}" class="btn_1">Add to Cart</a></div>
 	                        </div>
 	                    </div>
+						
 	                </div>
 	                <!-- /prod_info -->
 	                <div class="product_actions">
@@ -122,52 +125,42 @@
 	                    <div id="collapse-B" class="collapse" role="tabpanel" aria-labelledby="heading-B">
 	                        <div class="card-body">
 	                            <div class="row justify-content-between">
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
-	                                            <em>Published 54 minutes ago</em>
-	                                        </div>
-	                                        <h4>"Commpletely satisfied"</h4>
-	                                        <p>I thought I knew fried chicken until I tried it with this masala. It's like a flavor explosion in every bite! The spices are perfectly balanced, and my fried chicken has never tasted this good. Highly recommended.</p>
-	                                    </div>
-	                                </div>
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><em>4.0/5.0</em></span>
-	                                            <em>Published 1 day ago</em>
-	                                        </div>
-	                                        <h4>"Always the best"</h4>
-	                                        <p>As someone who loves experimenting in the kitchen, this Fried Chicken Masala has quickly become my secret weapon. It adds a whole new dimension to my fried chicken, making it taste like something from a restaurant. My family can't get enough.</p>
-	                                    </div>
-	                                </div>
+
+									{% for review in review %}
+										<div class="col-lg-6">
+											<div class="review_content">
+												<div class="clearfix add_bottom_10">
+													{% if review.rating == 1  %}
+														<span class="rating"><i class="icon-star "></i><i class="icon-star empty"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><em></em></span>
+													{% elif review.rating == 2 %}
+														<span class="rating"><i class="icon-star "></i><i class="icon-star"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><em></em></span>
+													{% elif review.rating == 3 %}
+														<span class="rating"><i class="icon-star "></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><i class="icon-star empty"></i><em></em></span>
+													{% elif review.rating == 4 %}
+														<span class="rating"><i class="icon-star "></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><em></em></span>
+													{% elif review.rating == 5 %}
+														<span class="rating"><i class="icon-star "></i><i class="icon-star "></i><i class="icon-star "></i><i class="icon-star "></i><i class="icon-star"></i><em></em></span>
+													{% endif %}
+													<em>{{ review.created_at }}</em>
+												</div>
+												<p style="font-size: large;">{{ review.user }}</p>
+												<h4>{{ review.head }}</h4>
+												<p>{{ review.comment }}</p>
+											</div>
+										</div>
+									{% endfor %}
+	                                
+									
 	                            </div>
 	                            <!-- /row -->
-	                            <div class="row justify-content-between">
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star empty"></i><em>4.5/5.0</em></span>
-	                                            <em>Published 3 days ago</em>
-	                                        </div>
-	                                        <h4>"Outstanding"</h4>
-	                                        <p>I've tried many masalas before, but this one truly stands out. The blend of spices is bold and adds a rich depth to the fried chicken. It's not just about heat, it's about real flavor. I'm hooked.</p>
-	                                    </div>
-	                                </div>
-	                                <div class="col-lg-6">
-	                                    <div class="review_content">
-	                                        <div class="clearfix add_bottom_10">
-	                                            <span class="rating"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><em>5.0/5.0</em></span>
-	                                            <em>Published 4 days ago</em>
-	                                        </div>
-	                                        <h4>"Excellent"</h4>
-	                                        <p>Dinner time has become a celebration since we started using this Fried Chicken Masala. My kids actually request fried chicken now, and my husband loves the extra kick of flavor. It's become a family favorite, and I'm so glad I discovered it.</p>
-	                                    </div>
-	                                </div>
-	                            </div>
+	                            
 	                            <!-- /row -->
-	                            <p class="text-end"><a href="{% url 'add_review' product.id %}" class="btn_1">Leave a review</a></p>
+								{% if existing_review %}
+									<p class="text-end"><a href="{% url 'edit_review' product.id existing_review.id %}" class="btn_1">Edit review</a></p>
+
+								{% else %}
+	                            	<p class="text-end"><a href="{% url 'add_review' product.id %}" class="btn_1">Leave a review</a></p>
+								{% endif %}
 	                        </div>
 	                        <!-- /card-body -->
 	                    </div>
@@ -220,6 +213,21 @@
 	</main>
 	<!-- /main -->
 
+	
+    <!-- Include JavaScript to dynamically display the star rating -->
+      
+	<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const starRatingContainers = document.querySelectorAll(".star-rating");
+
+            starRatingContainers.forEach(container => {
+                const rating = parseFloat(container.getAttribute("data-rating"));
+                const stars = "★★★★★".slice(0, rating);
+
+                container.textContent = stars;
+            });
+        });
+    </script>
 	<style>
 		.mainq {
 			margin-top: 118px;
@@ -229,6 +237,16 @@
 			margin-top: 0px;
 		}
 		}
+
+		.star-rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            color: gold; /* Set the color to yellow */
+            display: inline-block; /* Display the stars in a line */
+            vertical-align: middle; /* Vertically align the stars */
+        }
 	</style>
+
+
 	
 	{% endblock content %}

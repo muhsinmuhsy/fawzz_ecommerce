@@ -1,117 +1,21 @@
-{% extends "user/base.html" %}
+{% extends "User/base.html" %}
 {% load static %}
 {% block content %}
 
-<style>
-    /* Style for the review form */
-    .review-form {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f7f7f7;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 24px;
-        color: #333;
-    }
-
-    .rating {
-        text-align: center;
-        margin: 20px 0;
-    }
-
-    .stars {
-        text-align: center;
-    }
-
-    .stars input[type="radio"] {
-        display: none;
-    }
-
-    .stars label {
-        font-size: 30px;
-        color: #ccc;
-        cursor: pointer;
-        display: inline-block;
-        margin-left: 5px; /* Adjust spacing between stars */
-    }
-
-    .stars label:hover,
-    .stars input[type="radio"]:checked ~ label {
-        color: #ffc107; /* Change to your desired star color */
-    }
-
-    .stars label::before {
-        font-family: 'Font Awesome 5 Free';
-        content: '\f005'; /* Unicode for a solid star icon */
-    }
-
-    label {
-        display: block;
-        font-size: 16px;
-        margin-bottom: 8px;
-        color: #333;
-    }
-
-    input[type="text"],
-    textarea {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 16px;
-        margin-bottom: 15px;
-    }
-
-    input[type="submit"] {
-        background-color: #007bff; /* Change to your desired button color */
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        font-size: 18px;
-        cursor: pointer;
-    }
-
-    input[type="submit"]:hover {
-        background-color: #0056b3; /* Change to your desired button hover color */
-    }
-</style>
-
-<br>
-<div class="review-form">
-    <h1>Add Review for {{ product.name }}</h1>
-    
     <form method="post">
         {% csrf_token %}
-        <div class="rating">
-            <label for="rating">Rating:</label>
-            <div class="stars">
-                <input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
-                <input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
-                <input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
-                <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
-                <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
-            </div>
-        </div>
-        
-        <br>
-
-        <label for="head">Headline:</label>
-        <input type="text" id="head" name="head" required>
-        <br>
-
+        <label for="rating">Rating:</label>
+        <select name="rating">
+            <option value="1" {% if existing_review.rating == 1 %}selected{% endif %}>1 star</option>
+            <option value="2" {% if existing_review.rating == 2 %}selected{% endif %}>2 stars</option>
+            <option value="3" {% if existing_review.rating == 3 %}selected{% endif %}>3 stars</option>
+            <option value="4" {% if existing_review.rating == 4 %}selected{% endif %}>4 stars</option>
+            <option value="5" {% if existing_review.rating == 5 %}selected{% endif %}>5 stars</option>
+        </select><br>
+        <input type="text"  >
         <label for="comment">Comment:</label>
-        <textarea id="comment" name="comment" rows="4" required></textarea>
-        <br>
-
-        <input type="submit" value="Submit Review">
+        <textarea name="comment">{{ existing_review.comment }}</textarea><br>
+        <button type="submit">Update Review</button>
     </form>
-</div>
-<br>
-
+    
 {% endblock content %}

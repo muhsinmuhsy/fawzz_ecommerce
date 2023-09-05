@@ -127,7 +127,9 @@
 								</a>
 								<!-- <div data-countdown="2019/05/15" class="countdown"></div> -->
 							</figure>
-							<div class="rating"><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star voted"></i><i class="icon-star"></i></div>
+
+							<div class="star-rating" data-rating="{{ product.total_rating }}"></div>
+							<br>
 							<a href="{% url 'product_view' product_id=product.id %}">
 								<h3>{{ product.name }}</h3>
 							</a>
@@ -136,7 +138,6 @@
 								<!-- <span class="old_price">$60.00</span> -->
 							</div>
 							<ul>
-								<li><a href="" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to favorites"><i class="ti-heart"></i><span>Add to favorites</span></a></li>
 								<li><a href="{% url 'add_to_cart' product_id=product.id %}" class="tooltip-1" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to cart"><i class="ti-shopping-cart"></i><span>Add to cart</span></a></li>
 							</ul>
 						</div>
@@ -247,5 +248,31 @@
 		<!-- /container -->
 	</main>
 	<!-- /main -->
+
+
+	<style>
+        /* Define styles for the star rating */
+        .star-rating {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            color: gold; /* Set the color to yellow */
+            display: inline-block; /* Display the stars in a line */
+            vertical-align: middle; /* Vertically align the stars */
+        }
+    </style>
+
+
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const starRatingContainers = document.querySelectorAll(".star-rating");
+
+			starRatingContainers.forEach(container => {
+				const rating = parseFloat(container.getAttribute("data-rating"));
+				const stars = "★★★★★".slice(0, rating);
+
+				container.textContent = stars;
+			});
+		});
+	</script>
 		
 {% endblock content %}

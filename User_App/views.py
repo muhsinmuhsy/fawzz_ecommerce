@@ -4,13 +4,15 @@ from Admin_App.models import Product
 from django.contrib import messages
 from User_App.models import *
 from django.http import JsonResponse
-
+from django.db.models import Avg
 
 def home(request):
     current_page = 'home'
     products = Product.objects.all()
 
-    
+     # Calculate the total rating for each product
+    for product in products:
+        product.total_rating = Review.objects.filter(product=product).aggregate(Avg('rating'))['rating__avg']
     
     context = {
         'current_page': current_page,
@@ -44,7 +46,7 @@ def cart_list(request):
     user = request.user
     cart = Cart.objects.filter(user=user).order_by('-id')
     
-    subtotal = sum(x.total for x in cart)
+    subtotal = sum(x.total for x in cart if not x.ordered)
 
     context = {
         'current_page': current_page,
@@ -79,11 +81,49 @@ def delete_cart(request, cart_id):
 def product_view(request, product_id):
     current_page = 'product_view'
     product = Product.objects.get(id=product_id)
+    review = Review.objects.filter(product=product)
+    
+    
+    existing_review = None  # Initialize existing_review to None
+    if request.user.is_authenticated:
+        existing_review = Review.objects.filter(user=request.user, product=product).first()
+
+
+    # Calculate the total rating for the product
+    total_rating = review.aggregate(Avg('rating'))['rating__avg']
+      
     context = {
         'current_page': current_page,
-        'product' : product
+        'product' : product,
+        'existing_review' : existing_review,
+        'review' : review,
+        'total_rating': total_rating,  # Add total_rating to the context
     }
     return render(request, 'User/product_view.html', context)
+
+
+
+# def product_view(request, product_id):
+#     current_page = 'product_view'
+#     product = Product.objects.get(id=product_id)
+#     reviews = Review.objects.filter(product=product)
+
+#     existing_review = None  # Initialize existing_review to None
+#     if request.user.is_authenticated:
+#         existing_review = Review.objects.filter(user=request.user, product=product).first()
+
+#     # Calculate the total rating for the product
+#     total_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+
+#     context = {
+#         'current_page': current_page,
+#         'product': product,
+#         'existing_review': existing_review,
+#         'review': reviews,
+#         'total_rating': total_rating,  # Add total_rating to the context
+#     }
+#     return render(request, 'User/product_view.html', context)
+
 
 @login_required
 def add_to_cart_two(request, product_id):
@@ -241,3 +281,20 @@ def add_review(request, product_id):
         )
         return redirect('product_view', product_id=product.id)
     return render(request, 'User/add_review.html')
+
+
+@login_required
+def edit_review(request, product_id, existing_review_id):
+    product = Product.objects.get(id=product_id)
+    existing_review = Review.objects.get(id=existing_review_id)
+    
+    if request.method == 'POST':
+        existing_review.rating = request.POST.get('rating')
+        existing_review.comment = request.POST.get('comment')
+        existing_review.save()
+        return redirect('product_view', product_id=product.id)
+    
+    context = {
+        'existing_review' : existing_review
+    }
+    return render(request, 'User/edit_review.html', context)

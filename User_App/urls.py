@@ -16,17 +16,12 @@ urlpatterns = [
     path('blog', blog, name='blog'),
     path('search_results/', search_results, name='search_results'),
     path('search_suggestions/', search_suggestions, name='search_suggestions'),
-    
     path('shop', shop, name='shop'),
-
     path('add_to_cart_three/<int:product_id>/', add_to_cart_three, name='add_to_cart_three'),
-
     path('profile', profile, name='profile'), 
-
     path('order_list', order_list, name='order_list'),
-
     path('add_review/<int:product_id>/', add_review, name='add_review'),
+    path('edit_review/<int:product_id>/<int:existing_review_id>/', edit_review, name='edit_review'),
 
-    
-    
-]
+
+    ]
