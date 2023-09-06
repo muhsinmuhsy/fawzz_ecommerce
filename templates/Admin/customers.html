@@ -1,0 +1,40 @@
+{% extends 'Admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <div class="table-responsive " style="margin: 0px; margin-top: 10px;">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    
+                    
+                    <th scope="col" class="table-secondary text-nowrap">USER NAME</th>
+                    <th scope="col" class="table-secondary text-nowrap">FIRST NAME</th>
+                    <th scope="col" class="table-secondary text-nowrap">LAST NAME</th>
+                    <th scope="col" class="table-secondary text-nowrap">EMAIL</th>
+                    <th scope="col" class="table-secondary text-nowrap">ADDRESS</th>
+                    <th scope="col" class="table-secondary text-nowrap">MOBILE</th>
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for customers in customers %}
+                    <tr class="text-center">
+                        
+                        <td  class="table-secondary text-nowrap">{{ customers.username }}</td>
+                        <td  class="table-secondary text-nowrap">{{ customers.first_name }}</td>
+                        <td class="table-secondary text-nowrap">{{ customers.last_name }}</td>
+                        <td  class="table-secondary text-nowrap">{{ customers.email }}</td>
+                        <td  class="table-secondary text-nowrap">{{ customers.address}}</td>
+                        <td  class="table-secondary text-nowrap">{{ cu}}</td>     
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+
+{% endblock content %}

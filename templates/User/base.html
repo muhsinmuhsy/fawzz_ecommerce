@@ -32,6 +32,7 @@
 	<link href="{% static 'user/css/blog.css' %}" rel="stylesheet">
 	<link href="{% static 'user/css/faq.css' %}" rel="stylesheet">
 	<link href="{% static 'user/css/listing.css' %}" rel="stylesheet">
+	<link href="{% static 'user/css/contact.css' %}" rel="stylesheet">
 
 	<link href="{% static 'user/css/product_page.css' %}" rel="stylesheet">
 
@@ -140,7 +141,7 @@
 									<a href="{% url 'blog' %}">Blog</a>
 								</li>
 								<li >
-									<a href="contacts.html" class="show-submenu">contact</a>
+									<a href="{% url 'contact' %}" class="show-submenu">contact</a>
 								</li>
 							</ul>
 						</div>
@@ -200,7 +201,7 @@
 								<!-- /dropdown-cart-->
 							</li>
 							<li>
-								<!-- <a href="wishlist.html" class="wishlist"><span>Wishlist</span></a> -->
+								<a href="wishlist.html" class=""><i class="ti-truck" style="font-size: 25px;"></i></a>
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
@@ -279,7 +280,7 @@
 							<li><a href="help-2.html">Help</a></li>
 							<li><a href="profile.html.html">My account</a></li>
 							<li><a href="blog.html">Blog</a></li>
-							<li><a href="contacts.html">Contacts</a></li>
+							<li><a href="{% url 'contact' %}">Contacts</a></li>
 						</ul>
 					</div>
 				</div>

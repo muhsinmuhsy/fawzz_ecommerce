@@ -67,3 +67,9 @@ class Review(models.Model):
     head = models.CharField(max_length=25)
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Enquiry(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.CharField(max_length=500)

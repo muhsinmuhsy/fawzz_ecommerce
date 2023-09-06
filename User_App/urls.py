@@ -14,6 +14,7 @@ urlpatterns = [
     path('order', order, name='order'), 
     path('about', about, name='about'),
     path('blog', blog, name='blog'),
+    path('contact/', contact, name='contact'),
     path('search_results/', search_results, name='search_results'),
     path('search_suggestions/', search_suggestions, name='search_suggestions'),
     path('shop', shop, name='shop'),

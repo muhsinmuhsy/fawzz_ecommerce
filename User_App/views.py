@@ -298,3 +298,18 @@ def edit_review(request, product_id, existing_review_id):
         'existing_review' : existing_review
     }
     return render(request, 'User/edit_review.html', context)
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        enquiry = Enquiry.objects.create(
+            name=name,
+            email=email,
+            message=message,
+        )
+        messages.success(request, 'thankyou for your ')
+    return render(request, 'User/contact.html',  )
+
+

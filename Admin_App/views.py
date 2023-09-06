@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth.decorators import login_required
 from Admin_App.models import *
 from User_App.models import *
+from U_Auth.models import User
 from django.core.exceptions import ValidationError
 # Create your views here.
 
@@ -97,3 +98,19 @@ def order_view(request, order_id):
         'order' : order
     }
     return render(request, 'Admin/order_view.html', context)
+
+
+def customers(request):
+    customers = User.objects.all()
+    context = {
+        'customer' : customers
+    }
+    return render(request, 'Admin/customers.html', context)
+
+def enquiry(request):
+    enquiry = Enquiry.objects.all()
+    context = {
+        'enquiry' : enquiry
+    }
+    return render(request, 'Admin/enquiry.html', context)
+
