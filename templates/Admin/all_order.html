@@ -2,92 +2,109 @@
 {% load static %}
 {% block content %}
     <main>
-        <div class="container">
-          <!-- Title and Top Buttons Start -->
-          <div class="page-title-container">
-            <div class="row">
-              <!-- Title Start -->
-              <div class="col-auto mb-3 mb-md-0 me-auto">
-                    <div class="w-auto sw-md-30">
-                    <a href="#" class="muted-link pb-1 d-inline-block breadcrumb-back">
-                        <i data-acorn-icon="chevron-left" data-acorn-size="13"></i>
-                        <span class="text-small align-middle">Home</span>
-                    </a>
-                    <h1 class="mb-0 pb-0 display-4" id="title">Order List</h1>
-                    </div>
-              </div>
-              <!-- Title End -->
-
-            </div>
-          <!-- Controls Start -->
-          
-        
-          <!-- Controls End -->
-
-          <!-- Order List Start -->
-          <div class="row">
-            <div class="col-12 mb-7">
-
-                {% for order in order %}
-                    <div class="card mb-2 bg-transparent no-shadow d-none d-md-block">
-                        <div class="card-body pt-0 pb-0 sh-3">
-                            <div class="row g-0 h-100 align-content-center">
-                                <div class="col-md-2 d-flex align-items-center mb-2 mb-md-0 text-muted text-small">ID</div>
-                                <div class="col-md-3 d-flex align-items-center text-muted text-small">NAME</div>
-                                <div class="col-md-2 d-flex align-items-center text-muted text-small">DATE</div>
-                                <div class="col-md-2 d-flex align-items-center text-muted text-small">AMOUNT</div>
-                                <div class="col-md-2 d-flex align-items-center text-muted text-small">STATUS</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="checkboxTable">
-                        <div class="card mb-2">
-                            <div class="card-body pt-0 pb-0 sh-21 sh-md-8">
-                                <div class="row g-0 h-100 align-content-center">
-                                <div class="col-11 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-1 order-md-1 h-md-100 position-relative">
-                                    <div class="text-muted text-small d-md-none">Id</div>
-                                    <a href="Orders.Detail.html" class="text-truncate h-100 d-flex align-items-center">{{ order.id }}</a>
-                                </div>
-                                <div class="col-6 col-md-3 d-flex flex-column justify-content-center mb-2 mb-md-0 order-3 order-md-2">
-                                    <div class="text-muted text-small d-md-none">Name</div>
-                                    <div class="text-alternate">{{ order.user }} </div>
-                                </div>
-                                <div class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-4 order-md-3">
-                                    <div class="text-muted text-small d-md-none">Price</div>
-                                    <div class="text-alternate">
-                                    <span>
-                                        <span class="text-small">$</span>
-                                        321.75
-                                    </span>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-5 order-md-4">
-                                    <div class="text-muted text-small d-md-none">Date</div>
-                                    <div class="text-alternate">13.09.2020</div>
-                                </div>
-                                <div class="col-6 col-md-2 d-flex flex-column justify-content-center mb-2 mb-md-0 order-last order-md-5">
-                                    <div class="text-muted text-small d-md-none">Status</div>
-                                    <div class="text-alternate">
-                                    <span class="badge rounded-pill bg-outline-primary">CONFIRMED</span>
-                                    </div>
-                                </div>
-                                <div class="col-1 col-md-1 d-flex flex-column justify-content-center align-items-md-end mb-2 mb-md-0 order-2 text-end order-md-last">
-                                    <label class="form-check float-end pe-none mt-1">
-                                    <input type="checkbox" class="form-check-input" />
-                                    </label>
-                                </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-               
-            </div>
-          </div>
-          <!-- Order List End -->
-
+        <div class="table-responsive " style="margin: 0px; margin-top: 10px;">
+            <table class="table">
+                <thead>
+                    <tr class="text-center">
+                        
+                        <th scope="col" class="table-secondary text-nowrap">ID</th>
+                        <th scope="col" class="table-secondary text-nowrap">NAME</th>
+                        <th scope="col" class="table-secondary text-nowrap">DATE</th>
+                        <th scope="col" class="table-secondary text-nowrap">AMOUNT</th>
+                        <th scope="col" class="table-secondary text-nowrap">STATUS</th>
+                        <th scope="col" class="table-secondary text-nowrap">ACTION</th>
+                        
+    
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in order %}
+                        <tr class="text-center">
+                            
+                            <td  class="table-secondary text-nowrap">{{ order.id }}</td>
+                            <td  class="table-secondary text-nowrap">{{ order.user }}</td>
+                            <td class="table-secondary text-nowrap">{{ order.date }}</td>
+                            <td  class="table-secondary text-nowrap"></td>
+                            <td  class="table-secondary text-nowrap">
+                                <form method="post" action="{% url 'order_update' order_id=order.id %}">
+                                    {% csrf_token %}
+                                    
+                                    <button type="submit" name="status" value="PENDING" 
+                                        {% if order.status == 'PENDING' %}
+                                            class="status-button active"
+                                        {% else %}
+                                            class="status-button" 
+                                        {% endif %}
+                                        >
+                                        Pending
+                                    </button>
+                
+                                    <button type="submit" name="status" value="ORDER CORNFIMED"
+                                        {% if order.status == 'ORDER CORNFIMED' %}
+                                            class="status-button active" 
+                                        {% else %}
+                                            class="status-button" 
+                                        {% endif %}
+                                        >
+                                        Confirmed
+                                    </button>
+                
+                                    <button type="submit" name="status" value="SHIPPED" 
+                                        {% if order.status == 'SHIPPED' %}
+                                            class="status-button active" 
+                                        {% else %}
+                                            class="status-button" 
+                                        {% endif %}
+                                        >
+                                        Shipped
+                                    </button>
+                
+                                    {% if order.status == 'SHIPPED' %}
+                                        <input type="text" name="delivery_espected" value="{{ order.delivery_espected }}" placeholder="delivery_espected">
+                                        <input type="submit" value="save">
+                                    {% else %}
+                                        <input type="hidden" name="delivery_espected" value="{{ order.delivery_espected }}">
+                                    {% endif %}
+                
+                                    <button type="submit" name="status" value="ORDER DON" 
+                                        {% if order.status == 'ORDER DON' %}
+                                            class="status-button active"
+                                        {% else %}
+                                            class="status-button" 
+                                        {% endif %}
+                                        >
+                                        Done
+                                    </button>
+                                </form>
+                            </td>
+                            <td  class="table-secondary text-nowrap">
+                                <a href="{% url 'order_view' order_id=order.id %}">view</a> 
+                            </td>     
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </main>
 
+    <style>
+        .status-button {
+            background-color: lightgray;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    
+        .status-button.active {
+            background-color: green;
+            color: white;
+            border-radius: 5px;
+        }
+    </style>
+
+    
     
 {% endblock %}

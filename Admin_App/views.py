@@ -77,3 +77,23 @@ def all_order(request):
     }
     return render(request, 'Admin/all_order.html', context)
 
+def order_update(request, order_id):
+    order = Order.objects.get(id=order_id)
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        delivery_espected = request.POST.get('delivery_espected')
+
+        if status and status in dict(order.STATUS): # for models STATUS choice
+            order.status = status
+
+        order.delivery_espected = delivery_espected
+
+        order.save()
+    return redirect('all_order')
+    
+def order_view(request, order_id):
+    order = Order.objects.get(id=order_id)
+    context = {
+        'order' : order
+    }
+    return render(request, 'Admin/order_view.html', context)
