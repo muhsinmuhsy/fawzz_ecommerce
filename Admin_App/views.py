@@ -94,16 +94,22 @@ def order_update(request, order_id):
     
 def order_view(request, order_id):
     order = Order.objects.get(id=order_id)
+
+    subtotal = sum(x.total for x in order.cart.all())
+    total_of_total = sum(x.total for x in order.cart.all()) + 1
+
     context = {
-        'order' : order
+        'order' : order,
+        'subtotal' : subtotal,
+        'total_of_total' : total_of_total
     }
     return render(request, 'Admin/order_view.html', context)
 
 
 def customers(request):
-    customers = User.objects.all()
+    customers = User.objects.all().filter(is_superuser=False)
     context = {
-        'customer' : customers
+        'customers' : customers
     }
     return render(request, 'Admin/customers.html', context)
 

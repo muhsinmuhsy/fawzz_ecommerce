@@ -47,11 +47,13 @@ def cart_list(request):
     cart = Cart.objects.filter(user=user).order_by('-id')
     
     subtotal = sum(x.total for x in cart if not x.ordered)
+    total_of_total = sum(x.total for x in cart if not x.ordered) + 8
 
     context = {
         'current_page': current_page,
         'cart' : cart,
-        'subtotal' :subtotal
+        'subtotal' :subtotal,
+        'total_of_total' : total_of_total
     }
     return render(request, 'User/cart_list.html', context)
 
@@ -148,6 +150,7 @@ def order(request):
     cart = Cart.objects.filter(user=request.user, ordered=False).order_by('-id')
 
     subtotal = sum(x.total for x in cart)
+    total_of_total = sum(x.total for x in cart if not x.ordered) + 8
 
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -176,7 +179,8 @@ def order(request):
     
     context = {
         'cart' : cart,
-        'subtotal' : subtotal
+        'subtotal' : subtotal,
+        'total_of_total' : total_of_total
     }
 
     return render(request, 'User/order.html', context)

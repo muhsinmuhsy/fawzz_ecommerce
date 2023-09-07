@@ -195,23 +195,21 @@
 						<ul class="top_tools">
 							<li>
 								<div >
-									<a href="{% url 'cart_list' %}" class="cart_bt"><strong>2</strong></a>
+									<a href="{% url 'cart_list' %}" class="cart_bt"><strong>{{ cart_items_count }}</strong></a>
 									
 								</div>
 								<!-- /dropdown-cart-->
 							</li>
-							<li>
-								<a href="wishlist.html" class=""><i class="ti-truck" style="font-size: 25px;"></i></a>
+							<li class="main-order">
+								<a href="{% url 'order_list' %}" class=""><i class="ti-truck" style="font-size: 25px;"></i></a>
 							</li>
 							<li>
 								<div class="dropdown dropdown-access">
-									<a href="#" class="access_link"><span>Account</span></a>
-									<div class="dropdown-menu">
+									<a href="{% url 'profile' %}" class="access_link"><span>Account</span></a>
+									<!-- <div class="dropdown-menu">
 										<a href="{% url 'login' %}" class="btn_1">Sign In or Sign Up</a>
 										<ul>
-											<!-- <li>
-												<a href="track-order.html"><i class="ti-truck"></i>Track your Order</a>
-											</li> -->
+											
 											<li>
 												<a href="{% url 'order_list' %}"><i class="ti-package"></i>My Orders</a>
 											</li>
@@ -222,7 +220,7 @@
 												<a href="help-2.html"><i class="ti-help-alt"></i>Help and Faq</a>
 											</li>
 										</ul>
-									</div>
+									</div> -->
 								</div>
 								<!-- /dropdown-access-->
 							</li>
@@ -256,9 +254,7 @@
 			<br>
 			<div id="mobile-search-suggestions"></div>
 
-			
-			
-			
+						
 			<!-- /search_mobile -->
 		</div>
 		<!-- /main_nav -->
@@ -354,7 +350,19 @@
 	<div id="toTop"></div><!-- Back to top button -->
 
 
-	
+	<style>
+		.main-order{
+			margin-top: 5px;
+		}
+		
+
+
+		@media (max-width: 1200px) {
+			.main-order{
+				margin-top: 0px;
+			}
+		}
+	</style>
 
 	
 	
