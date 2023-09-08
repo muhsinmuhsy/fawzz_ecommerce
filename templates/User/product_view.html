@@ -12,8 +12,10 @@
 	                    <div class="slider">
 	                        <div class="owl-carousel owl-theme main">
 	                            <div style="background-image: url('{{ product.image.url }}');" class="item-box"></div>
-	                            <div style="background-image: url('{{ product.image.url }}');" class="item-box"></div>
-	                            
+								{% if producut.image_two %}
+	                            	<div style="background-image: url('{{ product.image_two.url }}');" class="item-box"></div>
+	                            {% else %}
+								{% endif %}
 	                        </div>
 	                        <div class="left nonl"><i class="ti-angle-left"></i></div>
 	                        <div class="right"><i class="ti-angle-right"></i></div>

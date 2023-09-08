@@ -2,6 +2,32 @@
 {% load static %}
 {% block content %}
     <main>
+       
+        <form method="GET" action="{% url 'report' %}">
+            <div class="row">
+                <div class="col">
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" name="start_date" class="form-control" id="start_date" value="{{ start_date }}">
+                </div>
+                <div class="col">
+                    <label for="end_date">End Date:</label>
+                    <input type="date" name="end_date" id="end_date" class="form-control" value="{{ end_date }}">
+                </div>
+            </div>
+            <br>
+            <label for="status">Status:</label>
+            <select name="status" id="status" class="form-control">
+                <option value="">-- Select Status --</option>
+                <option value="PENDING" {% if status == "PENDING" %}selected{% endif %}>PENDING</option>
+                <option value="ORDER CORNFIMED" {% if status == "ORDER CORNFIMED" %}selected{% endif %}>ORDER CORNFIMED</option>
+                <option value="SHIPPED" {% if status == "SHIPPED" %}selected{% endif %}>SHIPPED</option>
+                <option value="ORDER DONE" {% if status == "ORDER DONE" %}selected{% endif %}>ORDER DONE</option>
+            </select>
+            <br>
+            <button type="submit" class="btn btn-secondary">Filter</button>
+        </form>
+        
+        
         <div class="table-responsive " style="margin: 0px; margin-top: 10px;">
             <table class="table">
                 <thead>
@@ -18,7 +44,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for order in order %}
+                    {% for order in orders %}
                         <tr class="text-center">
                             
                             <td  class="table-secondary text-nowrap">{{ order.id }}</td>

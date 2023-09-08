@@ -45,7 +45,7 @@ class Order(models.Model):
         ('PENDING', 'PENDING'),
         ('ORDER CORNFIMED', 'ORDER CORNFIMED'),
         ('SHIPPED', 'SHIPPED'),
-        ('ORDER DON', 'ORDER DON'),
+        ('ORDER DONE', 'ORDER DONE'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cart = models.ManyToManyField(Cart)

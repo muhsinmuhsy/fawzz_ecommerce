@@ -5,6 +5,7 @@ from django.contrib import messages
 from User_App.models import *
 from django.http import JsonResponse
 from django.db.models import Avg
+from django.db.models import Sum, F
 
 def home(request):
     current_page = 'home'
@@ -175,7 +176,7 @@ def order(request):
             field.ordered = True
             field.save()
         messages.success(request, f"Order added successfully.")
-        return redirect('cart_list')
+        return redirect('home')
     
     context = {
         'cart' : cart,
@@ -255,14 +256,36 @@ def profile(request):
 
 
 
+# @login_required
+# def order_list(request):
+#     current_page = 'order_list'
+#     user = request.user
+#     order = Order.objects.filter(user=user).order_by('-id')
+    
+#     context = {
+#         'current_page': current_page,
+#         'order' : order,
+        
+#     }
+#     return render(request, 'User/order_list.html', context)
+
+
+
+
 @login_required
 def order_list(request):
     current_page = 'order_list'
     user = request.user
-    order = Order.objects.filter(user=user).order_by('-id')
+
+    # Retrieve all orders with the total amount for each order
+    orders = Order.objects.filter(user=user).annotate(total_amount=Sum('cart__total')).order_by('-id')
+
+    # Add 8 to the total_amount for each order
+    orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+
     context = {
         'current_page': current_page,
-        'order' : order,
+        'order': orders
     }
     return render(request, 'User/order_list.html', context)
 
@@ -315,6 +338,6 @@ def contact(request):
             message=message,
         )
         messages.success(request, 'thankyou for your ')
-    return render(request, 'User/contact.html',  )
+    return render(request, 'User/contact.html')
 
 

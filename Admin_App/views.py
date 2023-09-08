@@ -1,26 +1,29 @@
 from django.shortcuts import render, redirect,  get_object_or_404
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from Admin_App.models import *
 from User_App.models import *
 from U_Auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.db.models import Sum, F
 # Create your views here.
 
 
-@login_required(login_url='/U_Auth/admin_login/')
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def dashboard(request):
     return render(request, 'Admin/dashboard.html')
 
-
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def product_list(request):
     products = Product.objects.all()
     return render(request, 'Admin/product_list.html', {'products': products})
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def product_detail(request, pk):
     product = get_object_or_404(Product, pk=pk)
     return render(request, 'Admin/product_detail.html', {'product': product})
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def add_product(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -40,6 +43,7 @@ def add_product(request):
 
     return render(request, 'Admin/add_product.html', {'error_message': error_message})
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def edit_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     if request.method == 'POST':
@@ -76,21 +80,42 @@ def edit_product(request, pk):
 
     return render(request, 'Admin/edit_product.html', {'product': product})
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()
     return redirect('product_list')
     
+# @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
+# def all_order(request):
+#     current_page = 'all_order'
+#     order = Order.objects.all().order_by('-id')
+#     context = {
+#         'current_page' : current_page,
+#         'order' : order
+#     }
+#     return render(request, 'Admin/all_order.html', context)
 
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def all_order(request):
     current_page = 'all_order'
-    order = Order.objects.all().order_by('-id')
+    
+    # Retrieve all orders with the total amount for each order
+    orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+
+    # Add 8 to the total_amount for each order
+    orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+
     context = {
-        'current_page' : current_page,
-        'order' : order
+        'current_page': current_page,
+        'order': orders
     }
     return render(request, 'Admin/all_order.html', context)
 
+
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def order_update(request, order_id):
     order = Order.objects.get(id=order_id)
     if request.method == 'POST':
@@ -104,12 +129,13 @@ def order_update(request, order_id):
 
         order.save()
     return redirect('all_order')
-    
+
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/') 
 def order_view(request, order_id):
     order = Order.objects.get(id=order_id)
 
     subtotal = sum(x.total for x in order.cart.all())
-    total_of_total = sum(x.total for x in order.cart.all()) + 1
+    total_of_total = sum(x.total for x in order.cart.all()) + 8
 
     context = {
         'order' : order,
@@ -118,7 +144,7 @@ def order_view(request, order_id):
     }
     return render(request, 'Admin/order_view.html', context)
 
-
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def customers(request):
     customers = User.objects.all().filter(is_superuser=False)
     context = {
@@ -126,10 +152,41 @@ def customers(request):
     }
     return render(request, 'Admin/customers.html', context)
 
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def enquiry(request):
     enquiry = Enquiry.objects.all()
     context = {
         'enquiry' : enquiry
     }
     return render(request, 'Admin/enquiry.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
+def report(request):
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    status = request.GET.get('status')
+
+    # Retrieve all orders with the total amount for each order
+    orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+
+    # Apply filters based on user input
+    if start_date:
+        orders = orders.filter(date__gte=start_date)
+    if end_date:
+        orders = orders.filter(date__lte=end_date)
+    if status:
+        orders = orders.filter(status=status)
+
+    # Add 8 to the total_amount for each order
+    orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+
+    context = {
+        'orders': orders,
+        'start_date': start_date,  # Pass the values to the context
+        'end_date': end_date,
+        'status': status,
+    }
+    return render(request, 'Admin/report.html', context)
+
 

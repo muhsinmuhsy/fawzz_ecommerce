@@ -272,10 +272,10 @@
 					<h3 data-bs-target="#collapse_1">Quick Links</h3>
 					<div class="collapse dont-collapse-sm links" id="collapse_1">
 						<ul>
-							<li><a href="about-2.html">About us</a></li>
-							<li><a href="help-2.html">Help</a></li>
-							<li><a href="profile.html.html">My account</a></li>
-							<li><a href="blog.html">Blog</a></li>
+							<li><a href="{% url 'about' %}">About us</a></li>
+							<!-- <li><a href="help-2.html">Help</a></li> -->
+							<li><a href="{% url 'profile' %}">My account</a></li>
+							<li><a href="{% url 'blog' %}">Blog</a></li>
 							<li><a href="{% url 'contact' %}">Contacts</a></li>
 						</ul>
 					</div>
@@ -284,7 +284,7 @@
 					<h3 data-bs-target="#collapse_2">Categories</h3>
 					<div class="collapse dont-collapse-sm links" id="collapse_2">
 						<ul>
-							<li><a href="listing-grid-1-full.html">Food Products</a></li>
+							<li><a href="{% url 'shop' %}">Food Products</a></li>
 							
 						</ul>
 					</div>
@@ -302,13 +302,13 @@
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-6">
-						<h3 data-bs-target="#collapse_4">Keep in touch</h3>
+						<!-- <h3 data-bs-target="#collapse_4">Keep in touch</h3> -->
 					<div class="collapse dont-collapse-sm" id="collapse_4">
 						<div id="newsletter">
-						    <div class="form-group">
+						    <!-- <div class="form-group">
 						        <input type="email" name="email_newsletter" id="email_newsletter" class="form-control" placeholder="Your email">
 						        <button type="submit" id="submit-newsletter"><i class="ti-angle-double-right"></i></button>
-						    </div>
+						    </div> -->
 						</div>
 						<div class="follow_us">
 							<h5>Follow Us</h5>
