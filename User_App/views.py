@@ -294,6 +294,7 @@ def edit_review(request, product_id, existing_review_id):
     
     if request.method == 'POST':
         existing_review.rating = request.POST.get('rating')
+        existing_review.head = request.POST.get('head')
         existing_review.comment = request.POST.get('comment')
         existing_review.save()
         return redirect('product_view', product_id=product.id)

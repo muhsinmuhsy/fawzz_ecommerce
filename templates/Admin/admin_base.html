@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Acorn Admin Template | Ecommerce Dashboard</title>
+    <title> Admin Template | Ecommerce Dashboard</title>
     <meta name="description" content="Ecommerce Dashboard" />
     <!-- Favicon Tags Start -->
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{% static 'admin/img/favicon/apple-touch-icon-57x57.png' %}" />
@@ -48,6 +48,7 @@
   </head>
 
   <body>
+    
     <div id="root">
       <div id="nav" class="nav-container d-flex">
         <div class="nav-content d-flex">
@@ -55,10 +56,10 @@
           <div class="logo position-relative">
             <a href="{% url 'dashboard' %}">
               <!-- Logo can be added directly -->
-              <!-- <img src="{% static 'admin/img/logo/logo-white.svg" alt="logo" /> -->
+              <img src="{% static 'admin/img/profile/Admin-Profile.png' %}" alt="logo" />
 
               <!-- Or added via css to provide different ones for different color themes -->
-              <div class="img"></div>
+              
             </a>
           </div>
           <!-- Logo End -->
@@ -66,7 +67,7 @@
           <!-- User Menu Start -->
           <div class="user-container d-flex">
             <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img class="profile" alt="profile" src="{% static 'admin/img/profile/Admin-Profile.png' %}" />
+              <!-- <img class="profile" alt="profile" src="{% static 'admin/img/profile/Admin-Profile.png' %}" /> -->
               <div class="name">Adminstator</div>
             </a>
             <div class="dropdown-menu dropdown-menu-end user-menu wide">
@@ -75,7 +76,7 @@
                 <div class="col-6 pe-1 ps-1">
                   <ul class="list-unstyled">
                     <li>
-                      <a href="#">
+                      <a href="{% url 'logout' %}">
                         <i data-acorn-icon="logout" class="me-2" data-acorn-size="17"></i>
                         <span class="align-middle">Logout</span>
                       </a>

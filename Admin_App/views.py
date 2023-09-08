@@ -4,6 +4,7 @@ from Admin_App.models import *
 from User_App.models import *
 from U_Auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib import messages
 # Create your views here.
 
 
@@ -24,12 +25,13 @@ def add_product(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         image = request.FILES.get('image')
+        image_two = request.FILES.get('image_two')
         description = request.POST.get('description')
         actual_price = request.POST.get('actual_price')
         discount_price = request.POST.get('discount_price')
 
         try:
-            product = Product.objects.create(name=name, image=image, description=description, actual_price=actual_price, discount_price=discount_price)
+            product = Product.objects.create(name=name, image=image, image_two=image_two, description=description, actual_price=actual_price, discount_price=discount_price)
             return redirect('product_list')
         except ValidationError as e:
             error_message = str(e)
@@ -43,25 +45,36 @@ def edit_product(request, pk):
     if request.method == 'POST':
         name = request.POST.get('name')
         image = request.FILES.get('image')
-        description = request.FILES.get('description')
+        image_two = request.FILES.get('image_two')
+        description = request.POST.get('description')
         actual_price = request.POST.get('actual_price')
-        discount_price = request.POST.get('discount_price')
+        discount_price = request.POST.get('discount_price') or None
 
-        try:
-            product.name = name
-            if image:
-                product.image = image
-            product.description= description
-            product.actual_price = actual_price
-            product.discount_price = discount_price
-            product.save()
-            return redirect('product_list')
-        except ValidationError as e:
-            error_message = str(e)
-    else:
-        error_message = None
+        product.name = name
+        if image:
+            product.image = image
+        if image_two:
+            product.image_two = image_two
 
-    return render(request, 'Admin/edit_product.html', {'product': product, 'error_message': error_message})
+        # Check if the user didn't select a new image and keep the previous one
+        if not image and product.image:
+            product.image = product.image
+
+        # Similarly, check for image_two
+        if not image_two and product.image_two:
+            product.image_two = product.image_two
+
+
+        product.description = description 
+        product.actual_price = actual_price
+        product.discount_price = discount_price
+        product.save()
+        
+        messages.success(request,'success')
+        return redirect('product_list')
+
+
+    return render(request, 'Admin/edit_product.html', {'product': product})
 
 def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
