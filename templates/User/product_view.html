@@ -12,23 +12,24 @@
 	                    <div class="slider">
 	                        <div class="owl-carousel owl-theme main">
 	                            <div style="background-image: url('{{ product.image.url }}');" class="item-box"></div>
-								{% if producut.image_two %}
-	                            	<div style="background-image: url('{{ product.image_two.url }}');" class="item-box"></div>
-	                            {% else %}
+								{% if product.image_two %}
+									<div style="background-image: url('{{ product.image_two.url }}');" class="item-box"></div>
 								{% endif %}
+
 	                        </div>
 	                        <div class="left nonl"><i class="ti-angle-left"></i></div>
 	                        <div class="right"><i class="ti-angle-right"></i></div>
 	                    </div>
-	                    <!-- <div class="slider-two">
+	                    <div class="slider-two">
 	                        <div class="owl-carousel owl-theme thumbs">
 	                            <div style="background-image: url('{{ product.image.url }}');" class="item active"></div>
-	                            <div style="background-image: url('{{ product.image.url }}');" class="item"></div>
-	                        
+								{% if product.image_two %}
+	                            	<div style="background-image: url('{{ product.image_two.url }}');" class="item"></div>
+								{% endif %}
 	                        </div>
 	                        <div class="left-t nonl-t"></div>
 	                        <div class="right-t"></div>
-	                    </div> -->
+	                    </div>
 	                </div>
 	            </div>
 	            <div class="col-md-6 mainq" >
@@ -37,14 +38,10 @@
 	                    <h1>{{ product.name }}</h1>
 	                    <!-- Display the total rating using a container element -->
     					<div class="star-rating" data-rating="{{ total_rating }}"></div>
+						<em>{{ review_count }} reviews</em>
 	                    <p>{{ product.description }} </p>
 						 
-	                    <div class="prod_options">
-	                        
-	                        <div class="row">
-	                           
-	                        </div>
-	                    </div>
+	                    
 	                    <div class="row">
 	                        <div class="col-lg-5 col-md-6">
 	                            <div class="price_main"><span class="new_price">${{ product.actual_price }}</span></div>

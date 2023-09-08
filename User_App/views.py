@@ -45,7 +45,7 @@ def add_to_cart(request, product_id):
 def cart_list(request):
     current_page = 'cart_list'
     user = request.user
-    cart = Cart.objects.filter(user=user).order_by('-id')
+    cart = Cart.objects.filter(user=user,ordered=False).order_by('-id')
     
     subtotal = sum(x.total for x in cart if not x.ordered)
     total_of_total = sum(x.total for x in cart if not x.ordered) + 8
@@ -85,7 +85,7 @@ def product_view(request, product_id):
     current_page = 'product_view'
     product = Product.objects.get(id=product_id)
     review = Review.objects.filter(product=product)
-    
+    review_count = review.count()
     
     existing_review = None  # Initialize existing_review to None
     if request.user.is_authenticated:
@@ -101,6 +101,7 @@ def product_view(request, product_id):
         'existing_review' : existing_review,
         'review' : review,
         'total_rating': total_rating,  # Add total_rating to the context
+        'review_count' : review_count
     }
     return render(request, 'User/product_view.html', context)
 
@@ -211,8 +212,6 @@ def search_suggestions(request):
         suggestions = [product.name for product in products]
         return JsonResponse(suggestions, safe=False)
     return JsonResponse([], safe=False)
-
-
 
 
 
@@ -337,7 +336,7 @@ def contact(request):
             email=email,
             message=message,
         )
-        messages.success(request, 'thankyou for your ')
+        messages.success(request, 'Thank You ')
     return render(request, 'User/contact.html')
 
 

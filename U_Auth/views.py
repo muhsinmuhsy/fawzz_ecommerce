@@ -32,7 +32,8 @@ def register(request):
                 last_name=last_name,
                 address=address,
                 email=email,
-                mobile=mobile
+                mobile=mobile,
+                is_customer = True
                 )
             user.save()
             

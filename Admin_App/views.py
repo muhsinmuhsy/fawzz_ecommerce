@@ -11,7 +11,25 @@ from django.db.models import Sum, F
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def dashboard(request):
-    return render(request, 'Admin/dashboard.html')
+    cart = Cart.objects.filter(ordered=True)
+    cart_total = sum(x.total for x in cart)
+    order_count = Order.objects.count()
+    earnings = cart_total + order_count * 8
+    user_count = User.objects.filter(is_customer=True).count()
+    review_count =  Review.objects.count()
+    product_count = Product.objects.count()
+    
+
+         
+    context = {
+        'order_count' : order_count,
+        'earnings' : earnings,
+        'user_count' : user_count,
+        'product_count' : product_count,
+        'review_count' : review_count
+
+    }
+    return render(request, 'Admin/dashboard.html', context)
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def product_list(request):
@@ -31,7 +49,7 @@ def add_product(request):
         image_two = request.FILES.get('image_two')
         description = request.POST.get('description')
         actual_price = request.POST.get('actual_price')
-        discount_price = request.POST.get('discount_price')
+        discount_price = request.POST.get('discount_price') or None
 
         try:
             product = Product.objects.create(name=name, image=image, image_two=image_two, description=description, actual_price=actual_price, discount_price=discount_price)
