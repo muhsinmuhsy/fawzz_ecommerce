@@ -169,15 +169,28 @@
                             </span>
                           </div>
                         </div>
-                        <div class="row g-0 mb-2">
-                          <div class="col-auto ms-auto ps-3 text-muted">Shipping</div>
-                          <div class="col-auto sw-13 text-end">
-                            <span>
-                              <span class="text-small text-muted">$</span>
-                              8
-                            </span>
+                        {% if subtotal >= 50 %}
+                          <div class="row g-0 mb-2">
+                            <div class="col-auto ms-auto ps-3 text-muted">Shipping</div>
+                            <div class="col-auto sw-13 text-end">
+                              <span>
+                                <span class="text-small text-muted">$</span>
+                                0
+                              </span>
+                            </div>
                           </div>
-                        </div>
+                        {% else %}
+                          <div class="row g-0 mb-2">
+                            <div class="col-auto ms-auto ps-3 text-muted">Shipping</div>
+                            <div class="col-auto sw-13 text-end">
+                              <span>
+                                <span class="text-small text-muted">$</span>
+                                8
+                              </span>
+                            </div>
+                          </div>
+                        {% endif %}
+                          
                         <!-- <div class="row g-0 mb-2">
                           <div class="col-auto ms-auto ps-3 text-muted">Sale</div>
                           <div class="col-auto sw-13 text-end">

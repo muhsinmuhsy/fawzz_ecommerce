@@ -58,6 +58,8 @@ class Order(models.Model):
     date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=100, choices=STATUS, default='PENDING')
     delivery_espected = models.CharField(max_length=100)
+    paid= models.BooleanField(default=False)
+    transaction_id = models.CharField(max_length=100)
 
 
 class Review(models.Model):

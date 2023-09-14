@@ -5,7 +5,7 @@ from User_App.models import *
 from U_Auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Case, When, Value
 # Create your views here.
 
 
@@ -116,6 +116,24 @@ def delete_product(request, pk):
 
 
 
+# @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
+# def all_order(request):
+#     current_page = 'all_order'
+    
+#     # Retrieve all orders with the total amount for each order
+#     orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+
+#     # Add 8 to the total_amount for each order
+#     orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+
+#     context = {
+#         'current_page': current_page,
+#         'order': orders
+#     }
+#     return render(request, 'Admin/all_order.html', context)
+
+
+
 @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def all_order(request):
     current_page = 'all_order'
@@ -123,14 +141,21 @@ def all_order(request):
     # Retrieve all orders with the total amount for each order
     orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
 
-    # Add 8 to the total_amount for each order
-    orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+    # Add 8 to the total_amount for each order if it's less than 50, otherwise keep it as is
+    orders = orders.annotate(
+        total_amount_with_8=Case(
+            When(total_amount__lt=50, then=F('total_amount') + 8),
+            default=F('total_amount'),
+            output_field=models.DecimalField(decimal_places=2, max_digits=10)
+        )
+    ).order_by('-id')
 
     context = {
         'current_page': current_page,
         'order': orders
     }
     return render(request, 'Admin/all_order.html', context)
+
 
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
@@ -152,8 +177,14 @@ def order_update(request, order_id):
 def order_view(request, order_id):
     order = Order.objects.get(id=order_id)
 
+    # subtotal = sum(x.total for x in order.cart.all())
+    # total_of_total = sum(x.total for x in order.cart.all()) + 8
+
     subtotal = sum(x.total for x in order.cart.all())
-    total_of_total = sum(x.total for x in order.cart.all()) + 8
+    total_of_total = subtotal + 8
+
+    if subtotal >= 50:
+        total_of_total = subtotal
 
     context = {
         'order' : order,

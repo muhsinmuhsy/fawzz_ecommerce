@@ -44,6 +44,9 @@ INSTALLED_APPS = [
     'U_Auth',
     'User_App',
     'Admin_App',
+
+    #PayPal
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +145,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'U_Auth.User'
 
 LOGIN_URL = 'login'
+
+
+
+PAYPAL_RECEIVER_EMAIL = 'sb-43xtjn27173289@business.example.com'
+PAYPAL_TEST = True

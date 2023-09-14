@@ -25,6 +25,9 @@ urlpatterns = [
     path('U_Auth/', include('U_Auth.urls')),
     path('', include('User_App.urls')),
     path('admin/', include('Admin_App.urls')),
+
+    #for paypal
+    path('',include('paypal.standard.ipn.urls')),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

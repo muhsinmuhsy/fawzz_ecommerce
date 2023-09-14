@@ -84,9 +84,15 @@
 				<li>
 					<span>Subtotal</span> ${{ subtotal }}
 				</li>
-				<li>
-					<span>Shipping</span> $8
-				</li>
+				{% if subtotal >= 50 %}
+					<li>
+						<span>Shipping</span> $0
+					</li>
+				{% else %}
+					<li>
+						<span>Shipping</span> $8
+					</li>
+				{% endif %}
 				<li>
 					<span>Total</span> ${{ total_of_total }}
 				</li>

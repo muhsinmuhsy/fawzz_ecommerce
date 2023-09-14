@@ -5,7 +5,12 @@ from django.contrib import messages
 from User_App.models import *
 from django.http import JsonResponse
 from django.db.models import Avg
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Case, When, Value
+from paypal.standard.forms import PayPalPaymentsForm
+from django.conf import settings
+import uuid
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 def home(request):
     current_page = 'home'
@@ -48,7 +53,10 @@ def cart_list(request):
     cart = Cart.objects.filter(user=user,ordered=False).order_by('-id')
     
     subtotal = sum(x.total for x in cart if not x.ordered)
-    total_of_total = sum(x.total for x in cart if not x.ordered) + 8
+    total_of_total = subtotal + 8
+
+    if subtotal >= 50:
+        total_of_total = subtotal
 
     context = {
         'current_page': current_page,
@@ -57,6 +65,26 @@ def cart_list(request):
         'total_of_total' : total_of_total
     }
     return render(request, 'User/cart_list.html', context)
+
+# @login_required
+# def cart_list(request):
+#     current_page = 'cart_list'
+#     user = request.user
+#     cart = Cart.objects.filter(user=user,ordered=False).order_by('-id')
+    
+#     subtotal = sum(x.total for x in cart if not x.ordered)
+#     total_of_total = subtotal 
+
+#     if total_of_total < 50:
+#         total_of_total += 8
+
+#     context = {
+#         'current_page': current_page,
+#         'cart' : cart,
+#         'subtotal' :subtotal,
+#         'total_of_total' : total_of_total
+#     }
+#     return render(request, 'User/cart_list.html', context)
 
 
 @login_required
@@ -147,12 +175,21 @@ def add_to_cart_two(request, product_id):
     messages.success(request, f"Cart added successfully.")
     return redirect("product_view" , product_id=product.id)
 
+
+###############################################################################################################################
+
 @login_required
 def order(request):
     cart = Cart.objects.filter(user=request.user, ordered=False).order_by('-id')
 
-    subtotal = sum(x.total for x in cart)
-    total_of_total = sum(x.total for x in cart if not x.ordered) + 8
+    # subtotal = sum(x.total for x in cart)
+    # total_of_total = sum(x.total for x in cart if not x.ordered) + 8
+
+    subtotal = sum(x.total for x in cart if not x.ordered)
+    total_of_total = subtotal + 8
+
+    if subtotal >= 50:
+        total_of_total = subtotal
 
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -177,7 +214,7 @@ def order(request):
             field.ordered = True
             field.save()
         messages.success(request, f"Order added successfully.")
-        return redirect('home')
+        return redirect('payment' , order_id=order.id)
     
     context = {
         'cart' : cart,
@@ -186,6 +223,64 @@ def order(request):
     }
 
     return render(request, 'User/order.html', context)
+
+
+
+def payment(request,order_id):
+    order = Order.objects.get(id=order_id)
+
+    subtotal = sum(x.total for x in order.cart.all())
+    total_of_total = subtotal + 8
+
+    if subtotal >= 50:
+        total_of_total = subtotal
+
+    host = request.get_host()
+
+    paypal_checkout = {
+        'business' : 'sb-43xtjn27173289@business.example.com',
+        'amount' : total_of_total,
+        'item_name' : 'product',
+        'invoice' : uuid.uuid4(),
+        'currency_code' : 'USD',
+        'notify_url' : f'http://{host}{reverse("paypal-ipn")}',
+        'return_url' : f'http://{host}{reverse("payment-success" , kwargs={"order_id": order_id})}',
+        'cancel_url' : f'http://{host}{reverse("payment-failed" , kwargs={"order_id": order_id})}',
+    }
+
+    paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
+
+    context = {
+        'paypal' : paypal_payment
+    }
+
+    return render(request,'PayPal/payment.html',context)
+
+
+
+@csrf_exempt
+def payment_completed_view(request,order_id):
+    PayerID = request.GET.get('PayerID')
+    order = Order.objects.get(id=order_id)
+
+    order.paid = True
+    order.transaction_id = PayerID
+    order.save()
+    
+    context = {
+        'data' : PayerID,
+        'order_id' : order_id,
+        'order' : order
+    }
+
+    return render(request,'PayPal/payment-completed.html',context)
+
+@csrf_exempt
+def payment_failed_view(request,order_id):
+    return render(request,'PayPal/payment-failed.html')
+
+
+###############################################################################################################################
 
 def about(request):
     return render(request, 'User/about.html')
@@ -276,11 +371,23 @@ def order_list(request):
     current_page = 'order_list'
     user = request.user
 
-    # Retrieve all orders with the total amount for each order
-    orders = Order.objects.filter(user=user).annotate(total_amount=Sum('cart__total')).order_by('-id')
+    # # Retrieve all orders with the total amount for each order
+    # orders = Order.objects.filter(user=user).annotate(total_amount=Sum('cart__total')).order_by('-id')
 
-    # Add 8 to the total_amount for each order
-    orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+    # # Add 8 to the total_amount for each order
+    # orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+
+    # Retrieve all orders with the total amount for each order
+    orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+
+    # Add 8 to the total_amount for each order if it's less than 50, otherwise keep it as is
+    orders = orders.annotate(
+        total_amount_with_8=Case(
+            When(total_amount__lt=50, then=F('total_amount') + 8),
+            default=F('total_amount'),
+            output_field=models.DecimalField(decimal_places=2, max_digits=10)
+        )
+    ).order_by('-id')
 
     context = {
         'current_page': current_page,

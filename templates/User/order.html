@@ -101,7 +101,11 @@
 						</ul>
 						<ul>
 							<li class="clearfix"><em><strong>Subtotal</strong></em>  <span>${{ subtotal }}</span></li>
-							<li class="clearfix"><em><strong>Shipping</strong></em> <span>$8</span></li>
+							{% if subtotal >= 50 %}
+								<li class="clearfix"><em><strong>Shipping</strong></em> <span>$0</span></li>
+							{% else %}
+								<li class="clearfix"><em><strong>Shipping</strong></em> <span>$8</span></li>
+							{% endif %}
 							
 						</ul>
 						<div class="total clearfix">TOTAL <span>${{ total_of_total }}</span></div>

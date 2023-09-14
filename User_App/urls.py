@@ -25,4 +25,8 @@ urlpatterns = [
     path('edit_review/<int:product_id>/<int:existing_review_id>/', edit_review, name='edit_review'),
 
 
+    path('payment-success/<int:order_id>/',payment_completed_view,name='payment-success'),
+    path('payment-failed/<int:order_id>/',payment_failed_view,name='payment-failed'),
+    path('payment/<int:order_id>/',payment,name='payment')
+
     ]
