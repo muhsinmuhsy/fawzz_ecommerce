@@ -213,7 +213,7 @@ def order(request):
         for field in cart:
             field.ordered = True
             field.save()
-        messages.success(request, f"Order added successfully.")
+        messages.success(request, f"")
         return redirect('payment' , order_id=order.id)
     
     context = {
@@ -251,7 +251,9 @@ def payment(request,order_id):
     paypal_payment = PayPalPaymentsForm(initial=paypal_checkout)
 
     context = {
-        'paypal' : paypal_payment
+        'paypal' : paypal_payment,
+        'order' : order,
+        'total_of_total' : total_of_total
     }
 
     return render(request,'PayPal/payment.html',context)
@@ -371,14 +373,8 @@ def order_list(request):
     current_page = 'order_list'
     user = request.user
 
-    # # Retrieve all orders with the total amount for each order
-    # orders = Order.objects.filter(user=user).annotate(total_amount=Sum('cart__total')).order_by('-id')
-
-    # # Add 8 to the total_amount for each order
-    # orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
-
-    # Retrieve all orders with the total amount for each order
-    orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+    # Retrieve all orders for the request.user with the total amount for each order
+    orders = Order.objects.filter(user=user).annotate(total_amount=Sum('cart__total')).order_by('-id')
 
     # Add 8 to the total_amount for each order if it's less than 50, otherwise keep it as is
     orders = orders.annotate(
@@ -388,6 +384,7 @@ def order_list(request):
             output_field=models.DecimalField(decimal_places=2, max_digits=10)
         )
     ).order_by('-id')
+
 
     context = {
         'current_page': current_page,

@@ -57,9 +57,9 @@ class Order(models.Model):
     phone = models.CharField(max_length=12)
     date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=100, choices=STATUS, default='PENDING')
-    delivery_espected = models.CharField(max_length=100)
+    delivery_espected = models.CharField(max_length=100, null=True, blank=True)
     paid= models.BooleanField(default=False)
-    transaction_id = models.CharField(max_length=100)
+    transaction_id = models.CharField(max_length=100, null=True, blank=True)
 
 
 class Review(models.Model):

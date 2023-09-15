@@ -60,7 +60,7 @@ def user_login(request):
             user = User.objects.get(username=username)
         except User.DoesNotExist:
             messages.error(request, 'Username does not exist.')
-            return render(request, 'login.html')
+            return render(request, 'U_Auth/login.html')
 
         if user.check_password(password):
             authenticated_user = authenticate(request, username=username, password=password)

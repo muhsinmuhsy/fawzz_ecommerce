@@ -52,7 +52,7 @@ def add_product(request):
         discount_price = request.POST.get('discount_price') or None
 
         try:
-            product = Product.objects.create(name=name, image=image, image_two=image_two, description=description, actual_price=actual_price, discount_price=discount_price)
+            product = Product.objects.create(name=name, image=image, image_two=image_two, description=description, actual_price=actual_price, discount_price=discount_price, stock=True)
             return redirect('product_list')
         except ValidationError as e:
             error_message = str(e)

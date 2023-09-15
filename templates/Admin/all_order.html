@@ -19,69 +19,71 @@
                 </thead>
                 <tbody>
                     {% for order in order %}
-                        <tr class="text-center">
-                            
-                            <td  class="table-secondary text-nowrap">{{ order.id }}</td>
-                            <td  class="table-secondary text-nowrap">{{ order.user }}</td>
-                            <td class="table-secondary text-nowrap">{{ order.date }}</td>
-                            <td  class="table-secondary text-nowrap">{{ order.total_amount_with_8 | floatformat:2 }} </td>
-                            <td  class="table-secondary text-nowrap">
-                                <form method="post" action="{% url 'order_update' order_id=order.id %}">
-                                    {% csrf_token %}
-                                    
-                                    <button type="submit" name="status" value="PENDING" 
-                                        {% if order.status == 'PENDING' %}
-                                            class="status-button active"
-                                        {% else %}
-                                            class="status-button" 
-                                        {% endif %}
-                                        >
-                                        Pending
-                                    </button>
-                
-                                    <button type="submit" name="status" value="ORDER CORNFIMED"
-                                        {% if order.status == 'ORDER CORNFIMED' %}
-                                            class="status-button active" 
-                                        {% else %}
-                                            class="status-button" 
-                                        {% endif %}
-                                        >
-                                        Confirmed
-                                    </button>
-                
-                                    <button type="submit" name="status" value="SHIPPED" 
+                        {% if order.paid == True %}   
+                            <tr class="text-center">
+                                
+                                <td  class="table-secondary text-nowrap">{{ order.id }}</td>
+                                <td  class="table-secondary text-nowrap">{{ order.user }}</td>
+                                <td class="table-secondary text-nowrap">{{ order.date }}</td>
+                                <td  class="table-secondary text-nowrap">{{ order.total_amount_with_8 | floatformat:2 }} </td>
+                                <td  class="table-secondary text-nowrap">
+                                    <form method="post" action="{% url 'order_update' order_id=order.id %}">
+                                        {% csrf_token %}
+                                        
+                                        <button type="submit" name="status" value="PENDING" 
+                                            {% if order.status == 'PENDING' %}
+                                                class="status-button active"
+                                            {% else %}
+                                                class="status-button" 
+                                            {% endif %}
+                                            >
+                                            Pending
+                                        </button>
+                    
+                                        <button type="submit" name="status" value="ORDER CORNFIMED"
+                                            {% if order.status == 'ORDER CORNFIMED' %}
+                                                class="status-button active" 
+                                            {% else %}
+                                                class="status-button" 
+                                            {% endif %}
+                                            >
+                                            Confirmed
+                                        </button>
+                    
+                                        <button type="submit" name="status" value="SHIPPED" 
+                                            {% if order.status == 'SHIPPED' %}
+                                                class="status-button active" 
+                                            {% else %}
+                                                class="status-button" 
+                                            {% endif %}
+                                            >
+                                            Shipped
+                                        </button>
+                    
                                         {% if order.status == 'SHIPPED' %}
-                                            class="status-button active" 
+                                            <input type="text" name="delivery_espected" value="{{ order.delivery_espected }}" placeholder="delivery_espected">
+                                            <input type="submit" value="save">
                                         {% else %}
-                                            class="status-button" 
+                                            <input type="hidden" name="delivery_espected" value="{{ order.delivery_espected }}">
                                         {% endif %}
-                                        >
-                                        Shipped
-                                    </button>
-                
-                                    {% if order.status == 'SHIPPED' %}
-                                        <input type="text" name="delivery_espected" value="{{ order.delivery_espected }}" placeholder="delivery_espected">
-                                        <input type="submit" value="save">
-                                    {% else %}
-                                        <input type="hidden" name="delivery_espected" value="{{ order.delivery_espected }}">
-                                    {% endif %}
-                
-                                    <button type="submit" name="status" value="ORDER DONE" 
-                                        {% if order.status == 'ORDER DONE' %}
-                                            class="status-button active"
-                                        {% else %}
-                                            class="status-button" 
-                                        {% endif %}
-                                        >
-                                        Done
-                                    </button>
-                                </form>
-                            </td>
-                            <td  class="table-secondary text-nowrap">
-                                <a href="{% url 'order_view' order_id=order.id %}">view</a> 
-                            </td>     
-                            
-                        </tr>
+                    
+                                        <button type="submit" name="status" value="ORDER DONE" 
+                                            {% if order.status == 'ORDER DONE' %}
+                                                class="status-button active"
+                                            {% else %}
+                                                class="status-button" 
+                                            {% endif %}
+                                            >
+                                            Done
+                                        </button>
+                                    </form>
+                                </td>
+                                <td  class="table-secondary text-nowrap">
+                                    <a href="{% url 'order_view' order_id=order.id %}">view</a> 
+                                </td>     
+                                
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>
