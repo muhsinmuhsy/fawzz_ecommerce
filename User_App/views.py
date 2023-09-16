@@ -207,6 +207,7 @@ def order(request):
             city=city,
             postel_code=postel_code,
             phone=phone,
+            total_of_total=total_of_total
         )
         order.cart.set(cart)  # For adding cart items assosiated with user (its manytomanyfield thats way using this)
 

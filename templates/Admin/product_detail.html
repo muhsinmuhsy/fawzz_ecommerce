@@ -67,6 +67,15 @@
                     <p class="mt-2 mb-4 sh-11 clamp-line" data-line="4">
                       {{ product.description }}
                     </p>
+
+                    <p>
+                      Availabilty : 
+                        {% if product.stock == True %}
+                        <span style="color: green;">Available</span>
+                        {% else %}
+                          <span style="color: red;">Unavailable</span>
+                        {% endif %}
+                    </p>
                     
                   </div>
                   <div>

@@ -3,6 +3,11 @@
 {% block content %}
 
 <main>
+    {% if error_message %}
+      <div class="alert alert-danger">
+        {{ error_message }}
+      </div>
+    {% endif %}
     <div class="container">
       <!-- Title and Top Buttons Start -->
       <div class="page-title-container">
@@ -64,6 +69,13 @@
                   <div class="col-md-6 mb-3">
                     <label class="form-label">Discount Price</label>
                     <input class="form-control" type="text" id="discount_price" name="discount_price"  required />
+                  </div>
+                </div>
+
+                <div class="row g-3">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="stock" id="flexSwitchCheckDefault">
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Availability</label>
                   </div>
                 </div>
               

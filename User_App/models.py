@@ -55,6 +55,7 @@ class Order(models.Model):
     postel_code = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     phone = models.CharField(max_length=12)
+    total_of_total = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=100, choices=STATUS, default='PENDING')
     delivery_espected = models.CharField(max_length=100, null=True, blank=True)

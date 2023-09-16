@@ -11,16 +11,19 @@ from django.db.models import Sum, F, Case, When, Value
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/U_Auth/admin_login/')
 def dashboard(request):
-    cart = Cart.objects.filter(ordered=True)
-    cart_total = sum(x.total for x in cart)
-    order_count = Order.objects.count()
-    earnings = cart_total + order_count * 8
+    # Calculate the sum of total_of_total for paid orders
+    earnings = Order.objects.filter(paid=True).aggregate(Sum('total_of_total'))['total_of_total__sum']
+
+    # If there are no paid orders, earnings will be None, so you can handle it accordingly
+    if earnings is not None:
+        earnings = round(earnings, 2)
+        
+    order_count = Order.objects.filter(paid=True).count()
+    
     user_count = User.objects.filter(is_customer=True).count()
     review_count =  Review.objects.count()
     product_count = Product.objects.count()
-    
-
-         
+      
     context = {
         'order_count' : order_count,
         'earnings' : earnings,
@@ -50,9 +53,10 @@ def add_product(request):
         description = request.POST.get('description')
         actual_price = request.POST.get('actual_price')
         discount_price = request.POST.get('discount_price') or None
+        stock = request.POST.get('stock') == 'on'
 
         try:
-            product = Product.objects.create(name=name, image=image, image_two=image_two, description=description, actual_price=actual_price, discount_price=discount_price, stock=True)
+            product = Product.objects.create(name=name, image=image, image_two=image_two, description=description, actual_price=actual_price, discount_price=discount_price, stock=stock)
             return redirect('product_list')
         except ValidationError as e:
             error_message = str(e)
@@ -71,6 +75,7 @@ def edit_product(request, pk):
         description = request.POST.get('description')
         actual_price = request.POST.get('actual_price')
         discount_price = request.POST.get('discount_price') or None
+        stock = request.POST.get('stock') == 'on'
 
         product.name = name
         if image:
@@ -90,6 +95,7 @@ def edit_product(request, pk):
         product.description = description 
         product.actual_price = actual_price
         product.discount_price = discount_price
+        product.stock = stock
         product.save()
         
         messages.success(request,'success')
