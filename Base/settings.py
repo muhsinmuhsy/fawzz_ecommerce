@@ -148,8 +148,8 @@ LOGIN_URL = 'login'
 
 
 
-PAYPAL_RECEIVER_EMAIL = 'sb-43xtjn27173289@business.example.com'
-PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'fawzfoodsandspices@gmail.com'
+PAYPAL_TEST = False
 
 
 # PAYPAL_BUY_BUTTON_IMAGE = 'https://risingtidestartups.com/wp-content/uploads/2018/08/paypal-checkout-button.png'

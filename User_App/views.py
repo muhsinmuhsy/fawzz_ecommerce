@@ -239,7 +239,7 @@ def payment(request,order_id):
     host = request.get_host()
 
     paypal_checkout = {
-        'business' : 'sb-43xtjn27173289@business.example.com',
+        'business' : settings.PAYPAL_RECEIVER_EMAIL,
         'amount' : total_of_total,
         'item_name' : 'product',
         'invoice' : uuid.uuid4(),
