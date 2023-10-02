@@ -14,3 +14,8 @@ class OrderModelAdmin(admin.ModelAdmin):
 @admin.register(Review)
 class ReviewModelAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Review._meta.fields]
+
+
+@admin.register(Enquiry)
+class EnquiryModelAdmin(admin.ModelAdmin):
+    list_display = [field.name for field in Enquiry._meta.fields]
