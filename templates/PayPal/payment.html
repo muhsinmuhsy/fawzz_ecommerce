@@ -1,67 +1,137 @@
+
 {% extends "User/base.html" %}
 {% load static %}
 {% block content %}
-<style>
-    /* Style the container for this specific template */
-    #order-container {
-        max-width: 600px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
+	<style>
+		img {
+			width: 200px;
+		}
+	</style>
 
-    /* Style the order details within this template */
-    #order-details {
-        font-size: 18px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 20px;
-    }
+	
+	<main class="bg_gray">
+	
+		
+	<div class="container margin_30">
+		<div class="page_header">
+			<div class="breadcrumbs">
+				
+		</div>
+		
+			
+	</div>
+	<!-- /page_header -->
+			<div class="row">
+				<div class="col-lg-6 col-md-6">
+					<div class="step first">
+						<h3> User Info and Billing address</h3>
+					<ul class="nav nav-tabs" id="tab_checkout" role="tablist">
+					  <li class="nav-item">
+						<a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#tab_1" role="tab" aria-controls="tab_1" aria-selected="true">Address</a>
+					  </li>
+					  <!-- <li class="nav-item">
+						<a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_2" aria-selected="false">Login</a>
+					  </li> -->
+					</ul>
+					<div class="tab-content checkout">
+						<div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab_1">
+							
+							
+						
+								<div class="row no-gutters">
+									<div class="col-6 form-group pr-1">
+										<p>{{ order.first_name }} {{ order.last_name }} </p>
+									</div>
+									<div class="col-6 form-group pl-1">
+										
+									</div>
+								</div>
+								<!-- /row -->
+								<div class="form-group">
+									<p>{{ order.address }}</p>
+								</div>
+								<div class="row no-gutters">
+									<div class="col-6 form-group pr-1">
+										<p>{{ order.city }}</p>
+									</div>
+									<div class="col-6 form-group pl-1">
+										<p>PIN CODE : {{ order.postel_code }}</p>
+									</div>
+								</div>
+								<!-- /row -->
+								<!-- <div class="row no-gutters">
+									<div class="col-md-12 form-group">
+										<div class="custom-select-form">
+											<select class="wide add_bottom_15" name="country" id="country">
+												<option value="" selected>Country</option>
+												<option value="Europe">Europe</option>
+												<option value="United states">United states</option>
+												<option value="Asia">Asia</option>
+											</select>
+										</div>
+									</div>
+								</div> -->
+								<!-- /row -->
+								<div class="form-group">
+									<p>{{ order.phone }}</p>
+								</div>
 
-    #order-details h2 {
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 10px;
-    }
+								<hr>
 
-    #order-details p {
-        margin: 5px 0;
-    }
+								
 
-    /* Style the PayPal button within this template */
-    #paypal-button {
-        background-color: #0070ba;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        border-radius: 5px;
-        margin-top: 20px;
-    }
-
-    #paypal-button:hover {
-        background-color: #005296;
-    }
-</style>    
-<br>
-<div id="order-container">
-    <div id="order-details">
-        <h2>Order Details</h2>
-        <p><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</p>
-        <p><strong>City:</strong> {{ order.city }}</p>
-        <p><strong>Postal Code:</strong> {{ order.postal_code }}</p>
-        <p><strong>Address:</strong> {{ order.address }}</p>
-        <p><strong>Phone:</strong> {{ order.phone }}</p>
-        <p><strong>Toatal Amount</strong> {{ total_of_total }}</p>
-    </div>
-    <div style="display: flex; justify-content: center;">
-        {{ paypal.render }}
-    </div>
-
-</div>
-<br>
+								
+		
+							
+						</div>
+						<!-- /tab_1 -->
+					  
+						<!-- /tab_2 -->
+					</div>
+					</div>
+					<!-- /step -->
+				</div>
+				
+				<div class="col-lg-6 col-md-6">
+					<div class="step last">
+						<h3> Order Summary</h3>
+					<div class="box_general summary">
+						<ul>
+							{% for cart in order.cart.all %}
+								<li class="clearfix"><em>{{ cart.product.name }}</em>  <span>{{ cart.total }}</span></li>
+							{% endfor %}
+						</ul>
+						<ul>
+							<li class="clearfix"><em><strong>Subtotal</strong></em>  <span>${{ subtotal }}</span></li>
+							{% if subtotal >= 50 %}
+								<li class="clearfix"><em><strong>Shipping</strong></em> <span>$0</span></li>
+							{% else %}
+								<li class="clearfix"><em><strong>Shipping</strong></em> <span>$8</span></li>
+							{% endif %}
+							
+						</ul>
+						<div class="total clearfix">TOTAL <span>${{ total_of_total }}</span></div>
+						
+						{% if subtotal == 0 %}
+							
+						{% else %}
+							<div style="display: flex; justify-content: center;">
+								{{ paypal.render }}
+							</div>
+						{% endif %}
+						
+					</div>
+					<!-- /box_general -->
+					</div>
+					<!-- /step -->
+				</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</main>
+	<!--/main-->
+	
+	
 
 {% endblock content %}

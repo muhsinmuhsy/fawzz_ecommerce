@@ -152,4 +152,4 @@ PAYPAL_RECEIVER_EMAIL = 'fawzfoodsandspices@gmail.com'
 PAYPAL_TEST = False
 
 
-# PAYPAL_BUY_BUTTON_IMAGE = 'https://risingtidestartups.com/wp-content/uploads/2018/08/paypal-checkout-button.png'
+PAYPAL_BUY_BUTTON_IMAGE = 'https://res.cloudinary.com/dloytq3fb/image/upload/w_300/mine/paypal/e1rvpbydb9tir3n4pcdf.png'

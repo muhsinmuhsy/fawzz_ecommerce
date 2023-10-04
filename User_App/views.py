@@ -243,7 +243,7 @@ def payment(request,order_id):
         'amount' : total_of_total,
         'item_name' : 'product',
         'invoice' : uuid.uuid4(),
-        'currency_code' : 'USD',
+        'currency_code' : 'AUD',
         'notify_url' : f'http://{host}{reverse("paypal-ipn")}',
         'return_url' : f'http://{host}{reverse("payment-success" , kwargs={"order_id": order_id})}',
         'cancel_url' : f'http://{host}{reverse("payment-failed" , kwargs={"order_id": order_id})}',
@@ -254,6 +254,7 @@ def payment(request,order_id):
     context = {
         'paypal' : paypal_payment,
         'order' : order,
+        'subtotal' : subtotal,
         'total_of_total' : total_of_total
     }
 

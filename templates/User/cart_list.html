@@ -36,35 +36,41 @@
 								</tr>
 							</thead>
 							<tbody>
-                                {% for cart in cart %}
-                                    
+								{% if cart %}
+									{% for cart in cart %}
+										
+										<tr>
+											<td>
+												<div class="thumb_cart">
+													<img src="{{ cart.product.image.url }} " data-src="{{ cart.product.image.url }}" class="lazy" alt="Image" style="width: 50px;">
+													<span class="item_cart">{{ cart.product.name }}</span>
+												</div>
+												
+											</td>
+											<td>
+												<strong>{{ cart.price_dummy }}</strong>
+											</td>
+											<td class="cart-product-quantity">
+												<div class="quantity-wrapper">
+													<a href="{% url 'decrease_quantity' cart.id %}" class="quantity-button">-</a>
+													<div class="quantity">{{ cart.quantity }}</div>
+													<a href="{% url 'increase_quantity' cart.id %}" class="quantity-button">+</a>
+												</div>
+											</td>
+											<td>
+												<strong>{{ cart.total }}</strong>
+											</td>
+											<td class="options">
+												<a href="{% url 'delete_cart' cart.id %}"><i class="ti-trash"></i></a>
+											</td>
+										</tr>
+										
+									{% endfor %}
+								{% else %}
 									<tr>
-										<td>
-											<div class="thumb_cart">
-												<img src="{{ cart.product.image.url }} " data-src="{{ cart.product.image.url }}" class="lazy" alt="Image" style="width: 50px;">
-												<span class="item_cart">{{ cart.product.name }}</span>
-											</div>
-											
-										</td>
-										<td>
-											<strong>{{ cart.price_dummy }}</strong>
-										</td>
-										<td class="cart-product-quantity">
-											<div class="quantity-wrapper">
-												<a href="{% url 'decrease_quantity' cart.id %}" class="quantity-button">-</a>
-												<div class="quantity">{{ cart.quantity }}</div>
-												<a href="{% url 'increase_quantity' cart.id %}" class="quantity-button">+</a>
-											</div>
-										</td>
-										<td>
-											<strong>{{ cart.total }}</strong>
-										</td>
-										<td class="options">
-											<a href="{% url 'delete_cart' cart.id %}"><i class="ti-trash"></i></a>
-										</td>
+										<td colspan="5" class="text-center">Your cart is empty</td>
 									</tr>
-                                    
-								{% endfor %}
+								{% endif %}
 							</tbody>
 						</table>
 

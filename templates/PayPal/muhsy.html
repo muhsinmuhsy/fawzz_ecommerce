@@ -1,0 +1,67 @@
+{% extends "User/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    /* Style the container for this specific template */
+    #order-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Style the order details within this template */
+    #order-details {
+        font-size: 18px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 20px;
+    }
+
+    #order-details h2 {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    #order-details p {
+        margin: 5px 0;
+    }
+
+    /* Style the PayPal button within this template */
+    #paypal-button {
+        background-color: #0070ba;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        margin-top: 20px;
+    }
+
+    #paypal-button:hover {
+        background-color: #005296;
+    }
+</style>    
+<br>
+<div id="order-container">
+    <div id="order-details">
+        <h2>Order Details</h2>
+        <p><strong>Name:</strong> {{ order.first_name }} {{ order.last_name }}</p>
+        <p><strong>City:</strong> {{ order.city }}</p>
+        <p><strong>Postal Code:</strong> {{ order.postal_code }}</p>
+        <p><strong>Address:</strong> {{ order.address }}</p>
+        <p><strong>Phone:</strong> {{ order.phone }}</p>
+        <p><strong>Toatal Amount</strong> {{ total_of_total }}</p>
+    </div>
+    <div style="display: flex; justify-content: center;">
+        {{ paypal.render }}
+    </div>
+
+</div>
+<br>
+
+{% endblock content %}
