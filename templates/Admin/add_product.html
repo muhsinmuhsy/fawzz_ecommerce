@@ -43,18 +43,18 @@
                   <!-- ... other form fields ... -->
                   <div class="col-md-6 mb-3">
                     <label class="form-label">Image</label>
-                    <input class="form-control" type="file" id="image" name="image" />
+                    <input class="form-control" type="file" id="image" name="image" required />
                 </div>
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Second Image</label>
-                    <input class="form-control" type="file" id="image_two" name="image_two" />
+                    <input class="form-control" type="file" id="image_two" name="image_two" required />
                 </div>
                 </div>
 
                 <div class="row g-3">
                   <div class="col-12">
                     <label class="form-label">Description</label>
-                    <textarea class="form-control" rows="3" id="description" name="description"></textarea>
+                    <textarea class="form-control" rows="3" id="description" name="description" required ></textarea>
                   </div>
                 </div>
 
@@ -65,10 +65,10 @@
                   </div>
                 </div>
 
-                <div class="row g-3">
+                <div class="row g-3" style="display: none;">
                   <div class="col-md-6 mb-3">
                     <label class="form-label">Discount Price</label>
-                    <input class="form-control" type="text" id="discount_price" name="discount_price"  required />
+                    <input class="form-control" type="text" id="discount_price" name="discount_price"  required  />
                   </div>
                 </div>
 

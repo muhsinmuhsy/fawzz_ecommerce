@@ -101,20 +101,20 @@
 								<li class="clearfix"><em>{{ cart.product.name }}</em>  <span>{{ cart.total }}</span></li>
 							{% endfor %}
 						</ul>
-						<ul>
-							<li class="clearfix"><em><strong>Subtotal</strong></em>  <span>${{ subtotal }}</span></li>
-							{% if subtotal >= 50 %}
-								<li class="clearfix"><em><strong>Shipping</strong></em> <span>$0</span></li>
-							{% else %}
-								<li class="clearfix"><em><strong>Shipping</strong></em> <span>$8</span></li>
-							{% endif %}
-							
-						</ul>
-						<div class="total clearfix">TOTAL <span>${{ total_of_total }}</span></div>
-						
 						{% if subtotal == 0 %}
 							
+							<p>Cart is empty</p>
 						{% else %}
+							<ul>
+								<li class="clearfix"><em><strong>Subtotal</strong></em>  <span>AUD {{ subtotal }}</span></li>
+								{% if subtotal >= 50 %}
+									<li class="clearfix"><em><strong>Shipping</strong></em> <span>AUD 0</span></li>
+								{% else %}
+									<li class="clearfix"><em><strong>Shipping</strong></em> <span>AUD 8</span></li>
+								{% endif %}
+								
+							</ul>
+							<div class="total clearfix">TOTAL <span>AUD {{ total_of_total }}</span></div>
 							<div style="display: flex; justify-content: center;">
 								{{ paypal.render }}
 							</div>

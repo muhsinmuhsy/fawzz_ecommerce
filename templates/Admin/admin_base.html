@@ -46,10 +46,40 @@
     <link rel="stylesheet" href="{% static 'admin/css/main.css' %}" />
     <script src="{% static 'admin/js/base/loader.js' %}"></script>
   </head>
+<style>
+  .message {
+  position: relative;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 15px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
 
+.error {
+  background-color: #e74c3c;
+}
+
+.success {
+  background-color:#859b48;
+  margin: 5px;
+}
+
+.close-icon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+</style>
   <body>
     
     <div id="root">
+      
       <div id="nav" class="nav-container d-flex">
         <div class="nav-content d-flex">
           <!-- Logo Start -->
@@ -203,6 +233,9 @@
       
       
     </div>
+
+
+
 
     <!-- Theme Settings Modal Start -->
     <div
@@ -527,6 +560,26 @@
       </div>
     </div>
     <!-- Search Modal End -->
+    <main>
+      <div style="margin: 10px;">
+        {% for message in messages %}
+          {% if message.tags == 'error' %}
+            <div class="message error">
+              {{ message }}
+              <span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
+            </div>
+          {% endif %}
+          
+          {% if message.tags == 'success' %}
+            <div class="message success">
+              {{ message }}
+              <span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </main>
+    
 
 
     {% block content %}

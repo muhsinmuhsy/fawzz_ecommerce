@@ -88,19 +88,19 @@
 				<div class="col-xl-4 col-lg-4 col-md-6">
 			<ul>
 				<li>
-					<span>Subtotal</span> ${{ subtotal }}
+					<span>Subtotal</span> AUD {{ subtotal }}
 				</li>
 				{% if subtotal >= 50 %}
 					<li>
-						<span>Shipping</span> $0
+						<span>Shipping</span> AUD 0
 					</li>
 				{% else %}
 					<li>
-						<span>Shipping</span> $8
+						<span>Shipping</span> AUD 8
 					</li>
 				{% endif %}
 				<li>
-					<span>Total</span> ${{ total_of_total }}
+					<span>Total</span> AUD {{ total_of_total }}
 				</li>
 			</ul>
 			<a href="{% url 'order' %}" class="btn_1 full-width cart">Proceed to Checkout</a>

@@ -85,21 +85,7 @@
 	
 	<div id="page">
 
-		{% for message in messages %}
-			{% if message.tags == 'error' %}
-				<div class="message error">
-					{{ message }}
-					<span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
-				</div>
-			{% endif %}
-			
-			{% if message.tags == 'success' %}
-				<div class="message success">
-					{{ message }}
-					<span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
-				</div>
-			{% endif %}
-    	{% endfor %}
+		
 
 		
 	<header class="version_1">
@@ -132,7 +118,7 @@
 									<a href="{% url 'home' %}" class="show-submenu">Home</a>
 								</li>
 								<li>
-									<a href="{% url 'about' %}">Abuot</a>
+									<a href="{% url 'about' %}">About</a>
 								</li>
 								<li >
 									<a href="{% url 'shop' %}" class="show-submenu-mega">shop</a>
@@ -155,6 +141,24 @@
 			</div>
 		</div>
 		<!-- /main_header -->
+		<div style="margin: 10px;">
+			{% for message in messages %}
+				{% if message.tags == 'error' %}
+					<div class="message error">
+						{{ message }}
+						<span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
+					</div>
+				{% endif %}
+				
+				{% if message.tags == 'success' %}
+					<div class="message success">
+						{{ message }}
+						<span class="close-icon" onclick="this.parentElement.style.display='none';">&times;</span>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+		
 
 		<div class="main_nav Sticky">
 			<div class="container">

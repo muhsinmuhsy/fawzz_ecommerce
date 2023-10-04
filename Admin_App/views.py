@@ -145,7 +145,7 @@ def all_order(request):
     current_page = 'all_order'
     
     # Retrieve all orders with the total amount for each order
-    orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+    orders = Order.objects.annotate(total_amount=Sum('cart__total')).filter( paid = True).order_by('-id')
 
     # Add 8 to the total_amount for each order if it's less than 50, otherwise keep it as is
     orders = orders.annotate(

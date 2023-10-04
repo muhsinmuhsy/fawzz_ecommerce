@@ -15,22 +15,22 @@
                                     {% for cart in order.cart.all %}
                                         <div class="price_box" style=" justify-content: space-between;  ">
                                             <h6>{{ cart.product.name }}</h6>
-                                            <span class="new_price" style="font-size: medium;">price : $ {{ cart.price_dummy }}</span>
+                                            <span class="new_price" style="font-size: medium;">price : AUD  {{ cart.price_dummy }}</span>
                                             <span class="new_price" style="font-size: medium;">quentity :  {{ cart.quantity }}</span>
-                                            <span class="new_price" style="font-size: medium;">total price : $ {{ cart.total }}</span>
+                                            <span class="new_price" style="font-size: medium;">total price : AUD  {{ cart.total }}</span>
                                         </div> 
                                     {% endfor %}
                                 </div>
-                                <p>Subtotal : $ {{ order.total_amount | floatformat:2 }}</p>
+                                <p>Subtotal : AUD  {{ order.total_amount | floatformat:2 }}</p>
 
                                 <!-- Add your shipping cost logic here -->
                                 {% if order.total_amount >= 50 %}
-                                    <p>Shipping: $0</p>
+                                    <p>Shipping: AUD 0</p>
                                 {% else %}
-                                    <p>Shipping: $8</p>
+                                    <p>Shipping: AUD 8</p>
                                 {% endif %}
                                 
-                                <h6 style="padding-bottom: 5px;">Grand Total : $ {{ order.total_amount_with_8 | floatformat:2 }}</h6>
+                                <h6 style="padding-bottom: 5px;">Grand Total : AUD  {{ order.total_amount_with_8 | floatformat:2 }}</h6>
 
                                 
                                 <ul style="margin-top: -5px; margin-left: 12px;" ><li><h5 style="margin-top: 5px;">Order status  </h5></li>
