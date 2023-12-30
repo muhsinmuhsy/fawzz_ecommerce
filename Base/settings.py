@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-m69-i=sms!tow%e-us7-!q=mw$mm#fcuekx954bip!7)!ige!7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -152,4 +152,4 @@ PAYPAL_RECEIVER_EMAIL = 'fawzfoodsandspices@gmail.com'
 PAYPAL_TEST = False
 
 
-PAYPAL_BUY_BUTTON_IMAGE = 'https://res.cloudinary.com/dloytq3fb/image/upload/w_300/mine/paypal/e1rvpbydb9tir3n4pcdf.png'
+PAYPAL_BUY_BUTTON_IMAGE = 'https://res.cloudinary.com/dloytq3fb/image/upload/w_150/v1697017142/mine/fawzz/kkdmjrz1osr2b9ahmu9o.png'

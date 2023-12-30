@@ -46,6 +46,12 @@
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
+	<!-- Select (select2) Option seartching -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+	<!-- Ajax CDN -->   
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 	<style>
 		
 
@@ -134,7 +140,9 @@
 						<!--/main-menu -->
 					</nav>
 					<div class="col-xl-3 col-lg-2 d-lg-flex align-items-center justify-content-end text-end">
-						<a class="phone_top" ><strong><span>Need Help?</span>+61 451559191</strong></a>
+						<a class="phone_top" href="tel:+61451559191">
+							<strong><span>Need Help?</span>+61 451559191</strong>
+						</a>
 					</div>
 				</div>
 				<!-- /row -->
@@ -431,6 +439,10 @@
   
     <!-- SPECIFIC SCRIPTS -->
     <script  src="{% static 'user/js/carousel_with_thumbs.js' %}"></script>
+
+
+	<!-- Select (select2) Option seartching -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>
 </html>

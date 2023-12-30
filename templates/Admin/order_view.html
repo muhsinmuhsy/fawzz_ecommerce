@@ -169,27 +169,19 @@
                             </span>
                           </div>
                         </div>
-                        {% if subtotal >= 50 %}
+                        
+                          
+                        
                           <div class="row g-0 mb-2">
                             <div class="col-auto ms-auto ps-3 text-muted">Shipping</div>
                             <div class="col-auto sw-13 text-end">
                               <span>
                                 <span class="text-small text-muted">AUD</span>
-                                0
+                                {{ shipping }}
                               </span>
                             </div>
                           </div>
-                        {% else %}
-                          <div class="row g-0 mb-2">
-                            <div class="col-auto ms-auto ps-3 text-muted">Shipping</div>
-                            <div class="col-auto sw-13 text-end">
-                              <span>
-                                <span class="text-small text-muted">AUD</span>
-                                8
-                              </span>
-                            </div>
-                          </div>
-                        {% endif %}
+                        
                           
                         <!-- <div class="row g-0 mb-2">
                           <div class="col-auto ms-auto ps-3 text-muted">Sale</div>
@@ -205,7 +197,7 @@
                           <div class="col-auto sw-13 text-end">
                             <span>
                               <span class="text-small text-muted">AUD</span>
-                              {{ total_of_total }}
+                              {{ order.total_of_total }}
                             </span>
                           </div>
                         </div>

@@ -145,16 +145,9 @@ def all_order(request):
     current_page = 'all_order'
     
     # Retrieve all orders with the total amount for each order
-    orders = Order.objects.annotate(total_amount=Sum('cart__total')).filter( paid = True).order_by('-id')
+    orders = Order.objects.filter( paid = True).order_by('-id')
 
-    # Add 8 to the total_amount for each order if it's less than 50, otherwise keep it as is
-    orders = orders.annotate(
-        total_amount_with_8=Case(
-            When(total_amount__lt=50, then=F('total_amount') + 8),
-            default=F('total_amount'),
-            output_field=models.DecimalField(decimal_places=2, max_digits=10)
-        )
-    ).order_by('-id')
+   
 
     context = {
         'current_page': current_page,
@@ -187,15 +180,22 @@ def order_view(request, order_id):
     # total_of_total = sum(x.total for x in order.cart.all()) + 8
 
     subtotal = sum(x.total for x in order.cart.all())
-    total_of_total = subtotal + 8
+    shipping = 8
+    total_of_total = subtotal + shipping
 
     if subtotal >= 50:
         total_of_total = subtotal
+        shipping = 0
+
+    if order.city in ['city1', 'city2']:
+        total_of_total = subtotal
+        shipping = 0
 
     context = {
         'order' : order,
         'subtotal' : subtotal,
-        'total_of_total' : total_of_total
+        'total_of_total' : total_of_total,
+        'shipping' : shipping
     }
     return render(request, 'Admin/order_view.html', context)
 
@@ -223,7 +223,7 @@ def report(request):
     status = request.GET.get('status')
 
     # Retrieve all orders with the total amount for each order
-    orders = Order.objects.annotate(total_amount=Sum('cart__total')).order_by('-id')
+    orders = Order.objects.filter(paid = True).order_by('-id')
 
     # Apply filters based on user input
     if start_date:
@@ -233,8 +233,7 @@ def report(request):
     if status:
         orders = orders.filter(status=status)
 
-    # Add 8 to the total_amount for each order
-    orders = orders.annotate(total_amount_with_8=F('total_amount') + 8).order_by('-id')
+   
 
     context = {
         'orders': orders,

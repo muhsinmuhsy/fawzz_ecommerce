@@ -24,7 +24,7 @@
                             <td  class="table-secondary text-nowrap">{{ forloop.counter }}</td>
                             <td  class="table-secondary text-nowrap">{{ order.user }}</td>
                             <td class="table-secondary text-nowrap">{{ order.date }}</td>
-                            <td  class="table-secondary text-nowrap">{{ order.total_amount_with_8 | floatformat:2 }} </td>
+                            <td  class="table-secondary text-nowrap">{{ order.total_of_total | floatformat:2 }} </td>
                             <td  class="table-secondary text-nowrap">
                                 <form method="post" action="{% url 'order_update' order_id=order.id %}">
                                     {% csrf_token %}

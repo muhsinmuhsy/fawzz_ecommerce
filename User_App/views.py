@@ -11,6 +11,7 @@ from django.conf import settings
 import uuid
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from User_App.cities import ALLOWED_CITIES
 
 def home(request):
     current_page = 'home'
@@ -186,16 +187,21 @@ def order(request):
     # total_of_total = sum(x.total for x in cart if not x.ordered) + 8
 
     subtotal = sum(x.total for x in cart if not x.ordered)
-    total_of_total = subtotal + 8
+
+    shipping = 8
+    total_of_total = subtotal + shipping
 
     if subtotal >= 50:
         total_of_total = subtotal
+    
+    
 
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         address = request.POST.get('address')
-        city = request.POST.get('city')
+        city = request.POST.get('city_name') or request.POST.get('city_type')
+
         postel_code = request.POST.get('postel_code')
         phone = request.POST.get('phone')
 
@@ -207,7 +213,7 @@ def order(request):
             city=city,
             postel_code=postel_code,
             phone=phone,
-            total_of_total=total_of_total
+            
         )
         order.cart.set(cart)  # For adding cart items assosiated with user (its manytomanyfield thats way using this)
 
@@ -226,15 +232,24 @@ def order(request):
     return render(request, 'User/order.html', context)
 
 
-
+@csrf_exempt
 def payment(request,order_id):
     order = Order.objects.get(id=order_id)
 
     subtotal = sum(x.total for x in order.cart.all())
-    total_of_total = subtotal + 8
+    shipping = 8
+    total_of_total = subtotal + shipping
 
     if subtotal >= 50:
         total_of_total = subtotal
+        shipping = 0
+
+    if order.city in ALLOWED_CITIES:
+        total_of_total = subtotal
+        shipping = 0
+    
+    order.total_of_total = total_of_total
+    order.save()
 
     host = request.get_host()
 
@@ -255,7 +270,8 @@ def payment(request,order_id):
         'paypal' : paypal_payment,
         'order' : order,
         'subtotal' : subtotal,
-        'total_of_total' : total_of_total
+        'total_of_total' : total_of_total,
+        'shipping' : shipping
     }
 
     return render(request,'PayPal/payment.html',context)

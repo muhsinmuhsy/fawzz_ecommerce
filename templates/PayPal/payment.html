@@ -107,11 +107,11 @@
 						{% else %}
 							<ul>
 								<li class="clearfix"><em><strong>Subtotal</strong></em>  <span>AUD {{ subtotal }}</span></li>
-								{% if subtotal >= 50 %}
-									<li class="clearfix"><em><strong>Shipping</strong></em> <span>AUD 0</span></li>
-								{% else %}
-									<li class="clearfix"><em><strong>Shipping</strong></em> <span>AUD 8</span></li>
-								{% endif %}
+								
+									
+								
+								<li class="clearfix"><em><strong>Shipping</strong></em> <span>AUD {{ shipping }}</span></li>
+								
 								
 							</ul>
 							<div class="total clearfix">TOTAL <span>AUD {{ total_of_total }}</span></div>
